@@ -1,3 +1,4 @@
+أمل حنوش, [7/14/2025 1:03 AM]
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -25,15 +26,8 @@
     }
 
     @keyframes fadeInDown {
-      0% {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      0% { opacity: 0; transform: translateY(-20px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
 
     .products {
@@ -129,10 +123,7 @@
 
     .modal {
       position: fixed;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
+      top: 0; right: 0; bottom: 0; left: 0;
       background: rgba(0, 0, 0, 0.5);
       display: none;
       align-items: center;
@@ -193,12 +184,14 @@
 <body>
   <h1>✨ كوزمتك علي حنوش - العروض اليومية ✨</h1>
   <div class="products" id="product-list"></div>
+
   <div class="social">
     <a href="https://wa.me/9647818004585" target="_blank">💬 واتساب</a>
     <a href="https://www.instagram.com/ali_honosh" target="_blank">📸 إنستغرام</a>
     <a href="https://www.facebook.com/share/16UEZy9EHd/" target="_blank">📘 فيسبوك</a>
   </div>
 
+أمل حنوش, [7/14/2025 1:03 AM]
 <div class="modal" id="orderModal">
     <div class="modal-content">
       <h3>طلب المنتج</h3>
@@ -213,8 +206,61 @@
   <div class="toast" id="toast">✅ تم إرسال الطلب إلى واتساب</div>
 
   <script>
-    أمل حنوش, [7/14/2025 12:11 AM]
-mediaContent += <img src="${url}" alt="${item["الاسم"]}">;
+    function openModal(name, price) {
+      document.getElementById("productInfo").value = ${name}|${price};
+      document.getElementById("orderModal").style.display = "flex";
+    }
+
+    function showToast() {
+      const toast = document.getElementById("toast");
+      toast.style.display = "block";
+      setTimeout(() => {
+        toast.style.display = "none";
+      }, 4000);
+    }
+
+    function submitOrder() {
+      const name = document.getElementById("custName").value;
+      const address = document.getElementById("custAddress").value;
+      const phone = document.getElementById("custPhone").value;
+      const [prodName, prodPrice] = document.getElementById("productInfo").value.split("|");
+      if (name && address && phone) {
+        const msg = طلب منتج:\nالمنتج: ${prodName}\nالسعر: ${prodPrice}\nالاسم: ${name}\nالعنوان: ${address}\nالهاتف: ${phone};
+        const encoded = encodeURIComponent(msg);
+        window.open(https://wa.me/9647818004585?text=${encoded});
+        document.getElementById("orderModal").style.display = "none";
+        showToast();
+      } else {
+        alert("يرجى ملء جميع الحقول.");
+      }
+    }
+
+    window.onclick = function (e) {
+      if (e.target.id === "orderModal") {
+        document.getElementById("orderModal").style.display = "none";
+      }
+    };
+
+    fetch("https://opensheet.vercel.app/1GBEvznLdxcXqAHimMliEIBE2faqDJO4OFt8buWGD3y8/Sheet1")
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById("product-list");
+        data.forEach(item => {
+          const card = document.createElement("div");
+          card.className = "product";
+
+          let mediaContent = "";
+          const url = item["رابط الصورة"];
+
+          if (url.includes("youtube.com") || url.includes("youtu.be")) {
+            const videoId = url.includes("v=")
+              ? url.split("v=")[1]?.split("&")[0]
+              : url.split("/").pop();
+            mediaContent = <iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>;
+          } else if (url.includes(".mp4")) {
+            mediaContent = <video controls><source src="${url}" type="video/mp4">فيديو غير مدعوم</video>;
+          } else {
+  mediaContent = <img src="${url}" alt="${item["الاسم"]}">;
           }
 
           const shortDesc = item["الوصف"].slice(0, 60);
@@ -249,100 +295,4 @@ mediaContent += <img src="${url}" alt="${item["الاسم"]}">;
       });
   </script>
 </body>
-</html>
-function openModal(name, price) {
-  document.getElementById("productInfo").value = ${name}|${price};
-  document.getElementById("orderModal").style.display = "flex";
-}
-
-function showToast() {
-  const toast = document.getElementById("toast");
-  toast.style.display = "block";
-  setTimeout(() => {
-    toast.style.display = "none";
-  }, 4000);
-}
-
-function submitOrder() {
-  const name = document.getElementById("custName").value;
-  const address = document.getElementById("custAddress").value;
-  const phone = document.getElementById("custPhone").value;
-  const [prodName, prodPrice] = document.getElementById("productInfo").value.split("|");
-  if (name && address && phone) {
-    const msg = طلب منتج:\nالمنتج: ${prodName}\nالسعر: ${prodPrice}\nالاسم: ${name}\nالعنوان: ${address}\nالهاتف: ${phone};
-    const encoded = encodeURIComponent(msg);
-    window.open(https://wa.me/9647818004585?text=${encoded});
-    document.getElementById("orderModal").style.display = "none";
-    showToast();
-  } else {
-    alert("يرجى ملء جميع الحقول.");
-  }
-}
-
-window.onclick = function (e) {
-  if (e.target.id === "orderModal") {
-    document.getElementById("orderModal").style.display = "none";
-  }
-};
-
-fetch("https://opensheet.vercel.app/1GBEvznLdxcXqAHimMliEIBE2faqDJO4OFt8buWGD3y8/Sheet1")
-  .then(res => res.json())
-  .then(data => {
-    const container = document.getElementById("product-list");
-    data.forEach(item => {
-      const card = document.createElement("div");
-      card.className = "product";
-
-      let mediaContent = "";
-      const url = item["رابط الصورة"];
-
-      // استخراج الفيديو من YouTube
-      if (url.includes("youtube.com") || url.includes("youtu.be")) {
-        const videoId = url.includes("v=")
-          ? url.split("v=")[1]?.split("&")[0]
-          : url.split("/").pop();
-        mediaContent = <iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>;
-      
-      // إذا كان رابط فيديو mp4
-      } else if (url.includes(".mp4")) {
-        mediaContent = <video controls><source src="${url}" type="video/mp4">فيديو غير مدعوم</video>;
-      
-      // صورة ثابتة
-      } else {
-        mediaContent = <img src="${url}" alt="${item["الاسم"]}">;
-      }
-
-      const shortDesc = item["الوصف"].slice(0, 60);
-      const fullDesc = item["الوصف"];
-
-      card.innerHTML = 
-        ${mediaContent}
-        <div class="product-info">
-          <h2>${item["الاسم"]}</h2>
-          <p class="price">${item["السعر"]}</p>
-          <p class="desc">
-            <span class="short-desc">${shortDesc}...</span>
-            <span class="full-desc" style="display:none;">${fullDesc}</span>
-            <span class="more-link" onclick="
-              const s = this.previousElementSibling.previousElementSibling;
-              const f = this.previousElementSibling;
-              s.style.display='none';
-              f.style.display='inline';
-              this.style.display='none';
-            ">المزيد</span>
-          </p>
-          <button class="order-btn" onclick="openModal('${item["الاسم"]}', '${item["السعر"]}')">🛒 اطلب الآن</button>
-        </div>
-      ;
-
-      container.appendChild(card);
-    });
-  })
-  .catch(err => {
-    console.error('Error loading data:', err);
-    alert("حدث خطأ أثناء تحميل المنتجات. يرجى المحاولة لاحقًا.");
-  });
-  </script>
-</body>
-
 </html>
