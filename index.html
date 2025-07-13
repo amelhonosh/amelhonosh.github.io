@@ -1,3 +1,4 @@
+أمل حنوش, [7/14/2025 1:19 AM]
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -12,7 +13,6 @@
       padding: 20px;
       color: #333;
     }
-
     h1 {
       font-size: 2.8em;
       color: #ad1457;
@@ -23,19 +23,16 @@
       -webkit-text-fill-color: transparent;
       animation: fadeInDown 1.5s;
     }
-
     @keyframes fadeInDown {
       0% { opacity: 0; transform: translateY(-20px); }
       100% { opacity: 1; transform: translateY(0); }
     }
-
     .products {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
       padding: 10px;
     }
-
     .product {
       background: #fff;
       border-radius: 20px;
@@ -43,11 +40,9 @@
       overflow: hidden;
       transition: transform 0.3s;
     }
-
     .product:hover {
       transform: scale(1.03);
     }
-
     .product img,
     .product iframe,
     .product video {
@@ -56,34 +51,28 @@
       object-fit: contain;
       background: #fafafa;
     }
-
     .product-info {
       padding: 15px;
     }
-
     .product-info h2 {
       font-size: 1.3em;
       margin: 5px 0;
       color: #880e4f;
     }
-
     .product-info p.price {
       font-weight: bold;
       color: #d81b60;
     }
-
     .product-info p.desc {
       font-size: 0.95em;
       color: #555;
     }
-
     .more-link {
       color: #c2185b;
       cursor: pointer;
       text-decoration: underline;
       font-size: 0.9em;
     }
-
     .order-btn {
       margin-top: 10px;
       background-color: #c2185b;
@@ -94,32 +83,9 @@
       cursor: pointer;
       font-size: 1em;
     }
-
     .order-btn:hover {
       background-color: #880e4f;
     }
-
-    .social {
-      text-align: center;
-      margin-top: 40px;
-    }
-
-    .social a {
-      display: inline-block;
-      margin: 0 10px;
-      text-decoration: none;
-      color: #fff;
-      background: #c2185b;
-      padding: 10px 20px;
-      border-radius: 30px;
-      transition: background 0.3s;
-      font-size: 1.1em;
-    }
-
-    .social a:hover {
-      background: #880e4f;
-    }
-
     .modal {
       position: fixed;
       top: 0; right: 0; bottom: 0; left: 0;
@@ -129,7 +95,6 @@
       justify-content: center;
       z-index: 999;
     }
-
     .modal-content {
       background: #fff;
       padding: 20px;
@@ -138,12 +103,10 @@
       max-width: 400px;
       text-align: right;
     }
-
     .modal-content h3 {
       margin-top: 0;
       color: #c2185b;
     }
-
     .modal-content input {
       width: 100%;
       margin-bottom: 10px;
@@ -151,7 +114,6 @@
       border: 1px solid #ccc;
       border-radius: 10px;
     }
-
     .modal-content button {
       background: #c2185b;
       color: #fff;
@@ -160,11 +122,9 @@
       border-radius: 10px;
       cursor: pointer;
     }
-
     .modal-content button:hover {
       background: #880e4f;
     }
-
     .toast {
       position: fixed;
       bottom: 20px;
@@ -179,17 +139,11 @@
     }
   </style>
 </head>
-
 <body>
   <h1>✨ كوزمتك علي حنوش - العروض اليومية ✨</h1>
   <div class="products" id="product-list"></div>
 
-  <div class="social">
-    <a href="https://wa.me/9647818004585" target="_blank">💬 واتساب</a>
-    <a href="https://www.instagram.com/ali_honosh" target="_blank">📸 إنستغرام</a>
-    <a href="https://www.facebook.com/share/16UEZy9EHd/" target="_blank">📘 فيسبوك</a>
-  </div>
-<div class="modal" id="orderModal">
+  <div class="modal" id="orderModal">
     <div class="modal-content">
       <h3>طلب المنتج</h3>
       <input type="text" id="custName" placeholder="الاسم">
@@ -208,12 +162,11 @@
       document.getElementById("orderModal").style.display = "flex";
     }
 
-    function showToast() {
+أمل حنوش, [7/14/2025 1:19 AM]
+function showToast() {
       const toast = document.getElementById("toast");
       toast.style.display = "block";
-      setTimeout(() => {
-        toast.style.display = "none";
-      }, 4000);
+      setTimeout(() => { toast.style.display = "none"; }, 4000);
     }
 
     function submitOrder() {
@@ -245,19 +198,16 @@
         data.forEach(item => {
           const card = document.createElement("div");
           card.className = "product";
-
           let mediaContent = "";
           const url = item["رابط الصورة"];
 
           if (url.includes("youtube.com") || url.includes("youtu.be")) {
-            const videoId = url.includes("v=")
-              ? url.split("v=")[1]?.split("&")[0]
-              : url.split("/").pop();
+            const videoId = url.includes("v=") ? url.split("v=")[1].split("&")[0] : url.split("/").pop();
             mediaContent = <iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>;
           } else if (url.includes(".mp4")) {
             mediaContent = <video controls><source src="${url}" type="video/mp4">فيديو غير مدعوم</video>;
           } else {
-  mediaContent = <img src="${url}" alt="${item["الاسم"]}">;
+            mediaContent = <img src="${url}" alt="${item["الاسم"]}">;
           }
 
           const shortDesc = item["الوصف"].slice(0, 60);
