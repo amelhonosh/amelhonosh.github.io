@@ -66,7 +66,7 @@
       font-size: 0.95em;
       color: #555;
     }
-    .more-url {
+    .more-link {
       color: #c2185b;
       cursor: pointer;
       text-decoration: underline;
@@ -157,9 +157,10 @@
 
   <script>
     function openModal(name, price) {
-      document.getElementById("productInfo").value =`${name}|${price}`;
+      document.getElementById("productInfo").value = ${name}|${price};
       document.getElementById("orderModal").style.display = "flex";
     }
+
 function showToast() {
       const toast = document.getElementById("toast");
       toast.style.display = "block";
@@ -172,9 +173,9 @@ function showToast() {
       const phone = document.getElementById("custPhone").value;
       const [prodName, prodPrice] = document.getElementById("productInfo").value.split("|");
       if (name && address && phone) {
-        const msg =`طلب منتج:\nالمنتج: ${prodName}\nالسعر: ${prodPrice}\nالاسم: ${name}\nالعنوان: ${address}\nالهاتف: ${phone}`;
+        const msg = طلب منتج:\nالمنتج: ${prodName}\nالسعر: ${prodPrice}\nالاسم: ${name}\nالعنوان: ${address}\nالهاتف: ${phone};
         const encoded = encodeURIComponent(msg);
-        window.open(`https://wa.me/9647818004585?text=${encoded}`);
+        window.open(https://wa.me/9647818004585?text=${encoded});
         document.getElementById("orderModal").style.display = "none";
         showToast();
       } else {
@@ -188,56 +189,55 @@ function showToast() {
       }
     };
 
-  // جلب البيانات من Google Sheets عبر Opensheet API
-fetch("https://opensheet.vercel.app/1GBEvznLdxcXqAHimMliEIBE2faqDJO4OFt8buWGD3y8/Sheet1")
-  .then(res => res.json())
-  .then(data => {
-    const container = document.getElementById("product-list");
-    data.forEach(item => {
-      let mediaContent = "";
-      const url = item["الصورة"];
+    fetch("https://opensheet.vercel.app/1GBEvznLdxcXqAHimMliEIBE2faqDJO4OFt8buWGD3y8/Sheet1")
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById("product-list");
+        data.forEach(item => {
+          const card = document.createElement("div");
+          card.className = "product";
+          let mediaContent = "";
+          const url = item["رابط الصورة"];
 
-      if (url.includes("youtube.com") || url.includes("youtu.be")) {
-        const videoId = url.includes("v=")
-          ? url.split("v=")[1].split("&")[0]
-          : url.split("/").pop();
-      mediaContent = `<iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+          if (url.includes("youtube.com") || url.includes("youtu.be")) {
+            const videoId = url.includes("v=") ? url.split("v=")[1].split("&")[0] : url.split("/").pop();
+            mediaContent =` <iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
           } else if (url.includes(".mp4")) {
-            mediaContent = `<video controls><source src="${url}" type="video/mp4">فيديو غير مدعوم</video>`;
+            mediaContent =` <video controls><source src="${url}" type="video/mp4">فيديو غير مدعوم</video>`;
           } else {
-            const url = item["رابط الصورة"];
-      mediaContent = <img src="${url}" alt="${item["الاسم"]}">;
+            mediaContent =` <img src="${url}" alt="${item["الاسم"]}">`;
           }
 
-      const shortDesc = item["الوصف"].slice(0, 60);
-      const fullDesc = item["الوصف"];
+          const shortDesc = item["الوصف"].slice(0, 60);
+          const fullDesc = item["الوصف"];
 
-      const card = document.createElement("div");
-      card.className = "product";
-      card.innerHTML = `
-        ${mediaContent}
-        <div class="product-info">
-          <h2>${item["الاسم"]}</h2>
-          <p class="price">${item["السعر"]}</p>
-          <p class="desc">
-            <span class="short-desc">${shortDesc}...</span>
-            <span class="full-desc" style="display:none;">${fullDesc}</span>
-            <span class="more-url" onclick="
-              this.previousElementSibling.previousElementSibling.style.display='none';
-              this.previousElementSibling.style.display='inline';
-              this.style.display='none';
-            ">المزيد</span>
-          </p>
-          <button class="order-btn" onclick="openModal('${item["الاسم"]}', '${item["السعر"]}')">🛒 اطلب الآن</button>
-        </div>`
-      ;
-      container.appendChild(card);
-    });
-  })
-  .catch(err => {
-    console.error('Error loading data:', err);
-    alert("حدث خطأ أثناء تحميل المنتجات. يرجى المحاولة لاحقًا.");
-  });
+          card.innerHTML = 
+            ${mediaContent}
+            <div class="product-info">
+              <h2>${item["الاسم"]}</h2>
+              <p class="price">${item["السعر"]}</p>
+              <p class="desc">
+                <span class="short-desc">${shortDesc}...</span>
+                <span class="full-desc" style="display:none;">${fullDesc}</span>
+                <span class="more-link" onclick="
+                  const s = this.previousElementSibling.previousElementSibling;
+                  const f = this.previousElementSibling;
+                  s.style.display='none';
+                  f.style.display='inline';
+                  this.style.display='none';
+                ">المزيد</span>
+              </p>
+              <button class="order-btn" onclick="openModal('${item["الاسم"]}', '${item["السعر"]}')">🛒 اطلب الآن</button>
+            </div>
+          ;
+
+          container.appendChild(card);
+        });
+      })
+      .catch(err => {
+        console.error('Error loading data:', err);
+        alert("حدث خطأ أثناء تحميل المنتجات. يرجى المحاولة لاحقًا.");
+      });
   </script>
 </body>
 </html>
