@@ -1,3 +1,4 @@
+أمل حنوش, [7/14/2025 6:45 AM]
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -157,9 +158,11 @@
 
   <script>
     function openModal(name, price) {
-      document.getElementById("productInfo").value =` ${name}|${price}`;
+      document.getElementById("productInfo").value = ${name}|${price};
       document.getElementById("orderModal").style.display = "flex";
     }
+
+أمل حنوش, [7/14/2025 6:45 AM]
 function showToast() {
       const toast = document.getElementById("toast");
       toast.style.display = "block";
@@ -172,9 +175,9 @@ function showToast() {
       const phone = document.getElementById("custPhone").value;
       const [prodName, prodPrice] = document.getElementById("productInfo").value.split("|");
       if (name && address && phone) {
-        const msg =` طلب منتج:\nالمنتج: ${prodName}\nالسعر: ${prodPrice}\nالاسم: ${name}\nالعنوان: ${address}\nالهاتف: ${phone}`;
+        const msg = طلب منتج:\nالمنتج: ${prodName}\nالسعر: ${prodPrice}\nالاسم: ${name}\nالعنوان: ${address}\nالهاتف: ${phone};
         const encoded = encodeURIComponent(msg);
-        window.open(`https://wa.me/9647818004585?text=${encoded}`);
+        window.open(https://wa.me/9647818004585?text=${encoded});
         document.getElementById("orderModal").style.display = "none";
         showToast();
       } else {
@@ -188,29 +191,30 @@ function showToast() {
       }
     };
 
-    fetch("https://opensheet.vercel.app/1GBEvznLdxcXqAHimMliEIBE2faqDJO4OFt8buWGD3y8/Sheet1")
+    // جلب البيانات من Google Sheets عبر Opensheet API
+    fetch("https://opensheet.vercel.app/1GBEvznLdxcQAHimMliEIBE2faqDJO4OFt8buWGD3y8/Sheet1")
       .then(res => res.json())
       .then(data => {
         const container = document.getElementById("product-list");
         data.forEach(item => {
-          const card = document.createElement("div");
-          card.className = "product";
           let mediaContent = "";
           const url = item["رابط الصورة"];
 
           if (url.includes("youtube.com") || url.includes("youtu.be")) {
             const videoId = url.includes("v=") ? url.split("v=")[1].split("&")[0] : url.split("/").pop();
-            mediaContent = `<iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
-          } else if (url.includes(".mp4")) {
-            mediaContent = `<video controls><source src="${url}" type="video/mp4">فيديو غير مدعوم</video>`;
+            mediaContent = <iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>;
+          } else if (url.endsWith(".mp4")) {
+            mediaContent = <video controls><source src="${url}" type="video/mp4">فيديو غير مدعوم</video>;
           } else {
-            mediaContent = `<img src="${url}" alt="${item["الاسم"]}">`;
+            mediaContent = <img src="${url}" alt="${item["الاسم"]}">;
           }
 
           const shortDesc = item["الوصف"].slice(0, 60);
           const fullDesc = item["الوصف"];
 
-          card.innerHTML =` 
+          const card = document.createElement("div");
+          card.className = "product";
+          card.innerHTML = `
             ${mediaContent}
             <div class="product-info">
               <h2>${item["الاسم"]}</h2>
