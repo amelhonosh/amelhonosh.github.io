@@ -201,11 +201,11 @@ fetch("https://opensheet.vercel.app/1GBEvznLdxcQAHimMliEIBE2faqDJO4OFt8buWGD3y8/
         const videoId = url.includes("v=")
           ? url.split("v=")[1].split("&")[0]
           : url.split("/").pop();
-        mediaContent = <iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>;
+        mediaContent = `<iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
       } else if (url.endsWith(".mp4")) {
-        mediaContent = <video controls><source src="${url}" type="video/mp4">فيديو غير مدعوم</video>;
+        mediaContent =`<video controls><source src="${url}" type="video/mp4">فيديو غير مدعوم</video>`;
       } else {
-        mediaContent = <img src="${url}" alt="${item["الاسم"]}">;
+        mediaContent =`<img src="${url}" alt="${item["الاسم"]}">`;
       }
 
       const shortDesc = item["الوصف"].slice(0, 60);
