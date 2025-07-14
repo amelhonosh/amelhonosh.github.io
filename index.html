@@ -157,7 +157,7 @@
 
   <script>
     function openModal(name, price) {
-      document.getElementById("productInfo").value =` ${name}|${price}`;
+      document.getElementById("productInfo").value =`${name}|${price}`;
       document.getElementById("orderModal").style.display = "flex";
     }
 function showToast() {
@@ -172,7 +172,7 @@ function showToast() {
       const phone = document.getElementById("custPhone").value;
       const [prodName, prodPrice] = document.getElementById("productInfo").value.split("|");
       if (name && address && phone) {
-        const msg = `طلب منتج:\nالمنتج: ${prodName}\nالسعر: ${prodPrice}\nالاسم: ${name}\nالعنوان: ${address}\nالهاتف: ${phone}`;
+        const msg =`طلب منتج:\nالمنتج: ${prodName}\nالسعر: ${prodPrice}\nالاسم: ${name}\nالعنوان: ${address}\nالهاتف: ${phone}`;
         const encoded = encodeURIComponent(msg);
         window.open(`https://wa.me/9647818004585?text=${encoded}`);
         document.getElementById("orderModal").style.display = "none";
@@ -211,8 +211,8 @@ function showToast() {
 
           const card = document.createElement("div");
           card.className = "product";
-          card.innerHTML = `
-            ${mediaContent}
+          card.innerHTML =`
+          ${mediaContent}
             <div class="product-info">
               <h2>${item["الاسم"]}</h2>
               <p class="price">${item["السعر"]}</p>
