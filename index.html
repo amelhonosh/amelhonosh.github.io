@@ -197,7 +197,7 @@ function showToast() {
           const card = document.createElement("div");
           card.className = "product";
           let mediaContent = "";
-          const url = item["رابط الصورة"];
+          const url = item["الصورة"];
 
           if (url.includes("youtube.com") || url.includes("youtu.be")) {
             const videoId = url.includes("v=") ? url.split("v=")[1].split("&")[0] : url.split("/").pop();
