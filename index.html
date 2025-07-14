@@ -197,7 +197,6 @@ fetch("https://opensheet.vercel.app/1GBEvznLdxcQAHimMliEIBE2faqDJO4OFt8buWGD3y8/
       let mediaContent = "";
       const url = item["رابط الصورة"];
 
-      // تحديد نوع المحتوى: YouTube فيديو أو mp4 أو صورة
       if (url.includes("youtube.com") || url.includes("youtu.be")) {
         const videoId = url.includes("v=")
           ? url.split("v=")[1].split("&")[0]
@@ -231,14 +230,13 @@ fetch("https://opensheet.vercel.app/1GBEvznLdxcQAHimMliEIBE2faqDJO4OFt8buWGD3y8/
           <button class="order-btn" onclick="openModal('${item["الاسم"]}', '${item["السعر"]}')">🛒 اطلب الآن</button>
         </div>
       ;
-
       container.appendChild(card);
     });
   })
   .catch(err => {
     console.error('Error loading data:', err);
     alert("حدث خطأ أثناء تحميل المنتجات. يرجى المحاولة لاحقًا.");
-      });
+  });
   </script>
 </body>
 </html>
