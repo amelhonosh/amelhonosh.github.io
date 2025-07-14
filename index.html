@@ -1,6 +1,4 @@
-
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<!DOCTYPE html><html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -141,9 +139,7 @@
 </head>
 <body>
   <h1>✨ كوزمتك علي حنوش - العروض اليومية ✨</h1>
-  <div class="products" id="product-list"></div>
-
-  <div class="modal" id="orderModal">
+  <div class="products" id="product-list"></div>  <div class="modal" id="orderModal">
     <div class="modal-content">
       <h3>طلب المنتج</h3>
       <input type="text" id="custName" placeholder="الاسم">
@@ -152,15 +148,12 @@
       <input type="hidden" id="productInfo">
       <button onclick="submitOrder()">إرسال الطلب عبر واتساب</button>
     </div>
-  </div>
-
-  <div class="toast" id="toast">✅ تم إرسال الطلب إلى واتساب</div>
-
-  <script>
+  </div>  <div class="toast" id="toast">✅ تم إرسال الطلب إلى واتساب</div>  <script>
     function openModal(name, price) {
       document.getElementById("productInfo").value = ${name}|${price};
       document.getElementById("orderModal").style.display = "flex";
     }
+
 function showToast() {
       const toast = document.getElementById("toast");
       toast.style.display = "block";
@@ -212,7 +205,7 @@ function showToast() {
 
           const card = document.createElement("div");
           card.className = "product";
-          card.innerHTML = `
+          card.innerHTML = 
             ${mediaContent}
             <div class="product-info">
               <h2>${item["الاسم"]}</h2>
@@ -221,17 +214,14 @@ function showToast() {
                 <span class="short-desc">${shortDesc}...</span>
                 <span class="full-desc" style="display:none;">${fullDesc}</span>
                 <span class="more-link" onclick="
-                  const s = this.previousElementSibling.previousElementSibling;
-                  const f = this.previousElementSibling;
-                  s.style.display='none';
-                  f.style.display='inline';
+                  this.previousElementSibling.previousElementSibling.style.display='none';
+                  this.previousElementSibling.style.display='inline';
                   this.style.display='none';
                 ">المزيد</span>
               </p>
               <button class="order-btn" onclick="openModal('${item["الاسم"]}', '${item["السعر"]}')">🛒 اطلب الآن</button>
-            </div>`
+            </div>
           ;
-
           container.appendChild(card);
         });
       })
@@ -239,6 +229,5 @@ function showToast() {
         console.error('Error loading data:', err);
         alert("حدث خطأ أثناء تحميل المنتجات. يرجى المحاولة لاحقًا.");
       });
-  </script>
-</body>
+  </script></body>
 </html>
