@@ -189,8 +189,8 @@ function showToast() {
     };
 
     // جلب البيانات من Google Sheets عبر Opensheet API
-    fetch("https://opensheet.vercel.app/1GBEvznLdxcQAHimMliEIBE2faqDJO4OFt8buWGD3y8/Sheet1")
-      .then(res => res.json())
+   fetch("https://opensheet.vercel.app/1GBEvznLdxcQAHimMliEIBE2faqDJO4OFt8buWGD3y8/Sheet1")
+  .then(res => res.json())
       .then(data => {
         const container = document.getElementById("product-list");
         data.forEach(item => {
