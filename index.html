@@ -66,7 +66,7 @@
       font-size: 0.95em;
       color: #555;
     }
-    .more-link {
+    .more-url {
       color: #c2185b;
       cursor: pointer;
       text-decoration: underline;
@@ -202,8 +202,8 @@ fetch("https://opensheet.vercel.app/1GBEvznLdxcXqAHimMliEIBE2faqDJO4OFt8buWGD3y8
           ? url.split("v=")[1].split("&")[0]
           : url.split("/").pop();
       mediaContent = `<iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
-          } else if (link.includes(".mp4")) {
-            mediaContent = `<video controls><source src="${link}" type="video/mp4">فيديو غير مدعوم</video>`;
+          } else if (url.includes(".mp4")) {
+            mediaContent = `<video controls><source src="${url}" type="video/mp4">فيديو غير مدعوم</video>`;
           } else {
             const url = item["رابط الصورة"];
       mediaContent = <img src="${url}" alt="${item["الاسم"]}">;
@@ -222,7 +222,7 @@ fetch("https://opensheet.vercel.app/1GBEvznLdxcXqAHimMliEIBE2faqDJO4OFt8buWGD3y8
           <p class="desc">
             <span class="short-desc">${shortDesc}...</span>
             <span class="full-desc" style="display:none;">${fullDesc}</span>
-            <span class="more-link" onclick="
+            <span class="more-url" onclick="
               this.previousElementSibling.previousElementSibling.style.display='none';
               this.previousElementSibling.style.display='inline';
               this.style.display='none';
