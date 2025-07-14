@@ -1,4 +1,6 @@
-<!DOCTYPE html><html lang="ar" dir="rtl">
+أمل حنوش, [7/14/2025 8:30 AM]
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -139,7 +141,9 @@
 </head>
 <body>
   <h1>✨ كوزمتك علي حنوش - العروض اليومية ✨</h1>
-  <div class="products" id="product-list"></div>  <div class="modal" id="orderModal">
+  <div class="products" id="product-list"></div>
+
+  <div class="modal" id="orderModal">
     <div class="modal-content">
       <h3>طلب المنتج</h3>
       <input type="text" id="custName" placeholder="الاسم">
@@ -148,12 +152,17 @@
       <input type="hidden" id="productInfo">
       <button onclick="submitOrder()">إرسال الطلب عبر واتساب</button>
     </div>
-  </div>  <div class="toast" id="toast">✅ تم إرسال الطلب إلى واتساب</div>  <script>
+  </div>
+
+  <div class="toast" id="toast">✅ تم إرسال الطلب إلى واتساب</div>
+
+  <script>
     function openModal(name, price) {
-      document.getElementById("productInfo").value = ${name}|${price};
+      document.getElementById("productInfo").value =` ${name}|${price}`;
       document.getElementById("orderModal").style.display = "flex";
     }
 
+أمل حنوش, [7/14/2025 8:30 AM]
 function showToast() {
       const toast = document.getElementById("toast");
       toast.style.display = "block";
@@ -166,9 +175,9 @@ function showToast() {
       const phone = document.getElementById("custPhone").value;
       const [prodName, prodPrice] = document.getElementById("productInfo").value.split("|");
       if (name && address && phone) {
-        const msg = طلب منتج:\nالمنتج: ${prodName}\nالسعر: ${prodPrice}\nالاسم: ${name}\nالعنوان: ${address}\nالهاتف: ${phone};
+        const msg = `طلب منتج:\nالمنتج: ${prodName}\nالسعر: ${prodPrice}\nالاسم: ${name}\nالعنوان: ${address}\nالهاتف: ${phone}`;
         const encoded = encodeURIComponent(msg);
-        window.open(https://wa.me/9647818004585?text=${encoded});
+        window.open(`https://wa.me/9647818004585?text=${encoded}`);
         document.getElementById("orderModal").style.display = "none";
         showToast();
       } else {
@@ -193,11 +202,11 @@ function showToast() {
 
           if (url.includes("youtube.com") || url.includes("youtu.be")) {
             const videoId = url.includes("v=") ? url.split("v=")[1].split("&")[0] : url.split("/").pop();
-            mediaContent = `<iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+            mediaContent =`<iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
           } else if (url.endsWith(".mp4")) {
             mediaContent = `<video controls><source src="${url}" type="video/mp4">فيديو غير مدعوم</video>`;
           } else {
-            mediaContent =` <img src="${url}" alt="${item["الاسم"]}">`;
+            mediaContent = `<img src="${url}" alt="${item["الاسم"]}">`;
           }
 
           const shortDesc = item["الوصف"].slice(0, 60);
@@ -205,7 +214,7 @@ function showToast() {
 
           const card = document.createElement("div");
           card.className = "product";
-          card.innerHTML = 
+          card.innerHTML = `
             ${mediaContent}
             <div class="product-info">
               <h2>${item["الاسم"]}</h2>
@@ -220,7 +229,7 @@ function showToast() {
                 ">المزيد</span>
               </p>
               <button class="order-btn" onclick="openModal('${item["الاسم"]}', '${item["السعر"]}')">🛒 اطلب الآن</button>
-            </div>
+            </div>`
           ;
           container.appendChild(card);
         });
@@ -229,5 +238,6 @@ function showToast() {
         console.error('Error loading data:', err);
         alert("حدث خطأ أثناء تحميل المنتجات. يرجى المحاولة لاحقًا.");
       });
-  </script></body>
+  </script>
+</body>
 </html>
