@@ -205,7 +205,8 @@ fetch("https://opensheet.vercel.app/1GBEvznLdxcXqAHimMliEIBE2faqDJO4OFt8buWGD3y8
           } else if (link.includes(".mp4")) {
             mediaContent = `<video controls><source src="${link}" type="video/mp4">فيديو غير مدعوم</video>`;
           } else {
-            mediaContent = `<img src="${link}" alt="${item["الاسم"]}">`;
+            const url = item["رابط الصورة"];
+      mediaContent = <img src="${url}" alt="${item["الاسم"]}">;
           }
 
       const shortDesc = item["الوصف"].slice(0, 60);
