@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -12,11 +13,16 @@
       padding: 20px;
       color: #333;
     }
+    .logo {
+      width: 100px;
+      display: block;
+      margin: 0 auto 10px auto;
+    }
     h1 {
-      font-size: 2.8em;
+      font-size: 2.2em;
       color: #ad1457;
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 15px;
       background: linear-gradient(90deg, #ec407a, #f48fb1);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -38,6 +44,7 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       overflow: hidden;
       transition: transform 0.3s;
+      position: relative;
     }
     .product:hover {
       transform: scale(1.03);
@@ -51,12 +58,23 @@
       background: #fafafa;
       border-bottom: 1px solid #eee;
     }
+    .badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #ff9800;
+      color: #fff;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 0.9em;
+      z-index: 2;
+    }
     .product-info {
       padding: 15px;
       text-align: right;
     }
     .product-info h2 {
-      font-size: 1.3em;
+      font-size: 1.2em;
       margin: 5px 0;
       color: #880e4f;
     }
@@ -150,7 +168,6 @@
       box-shadow: 0 0 10px rgba(0,0,0,0.3);
       font-size: 1em;
     }
-    /* زر السلة */
     #showCartBtn {
       position: fixed;
       top: 20px;
@@ -162,13 +179,13 @@
       border: none;
       border-radius: 20px;
       cursor: pointer;
-      display: none;
+      display: block;
+      font-size: 1.1em;
     }
-    /* شريط وسائل التواصل */
     .social {
       width: 100%;
       text-align: center;
-      padding: 20px 0;
+      padding: 20px 0 30px 0;
       background: #f5f5f5;
       position: fixed;
       bottom: 0;
@@ -186,18 +203,52 @@
     .social a:hover {
       color: #007bff;
     }
+    .info-footer {
+      width: 100%;
+      text-align: center;
+      font-size: 0.95em;
+      color: #888;
+      margin-top: 10px;
+      margin-bottom: 60px;
+    }
+    .cart-qty-btn {
+      background: #eee;
+      border: none;
+      border-radius: 50%;
+      width: 26px;
+      height: 26px;
+      font-size: 1.1em;
+      margin: 0 3px;
+      cursor: pointer;
+      color: #c2185b;
+      font-weight: bold;
+    }
+    .cart-qty-btn:active {
+      background: #f8bbd0;
+    }
+    .cart-remove-btn {
+      color: red;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1em;
+      margin-right: 5px;
+    }
   </style>
 </head>
 <body>
+  <!-- لوجو المحل -->
+  <img src="https://i.ibb.co/xtxchSdy/IMG-20250714-193958-841.jpg" alt="لوجو كوزمتك علي حنوش" class="logo" />
   <h1>✨ كوزمتك علي حنوش - العروض اليومية ✨</h1>
-  <button id="showCartBtn">🛒 عرض السلة (<span id="cartCount">0</span>)</button>
+  <button id="showCartBtn">🛒 السلة (<span id="cartCount">0</span>)</button>
   <div class="products" id="product-list"></div>
 
   <!-- نافذة السلة -->
   <div class="modal" id="cartModal">
     <div class="modal-content">
       <h3>سلة المشتريات</h3>
-      <ul id="cartItems" style="padding-right:20px;"></ul>
+      <ul id="cartItems" style="padding-right:20px;list-style:decimal;"></ul>
+      <div id="cartTotal" style="font-weight:bold;margin:10px 0;"></div>
       <hr>
       <input type="text" id="custName" placeholder="الاسم" />
       <input type="text" id="custAddress" placeholder="العنوان" />
@@ -208,19 +259,46 @@
 
   <div class="toast" id="toast">✅ تم إرسال الطلب إلى واتساب</div>
 
+  <div class="info-footer">
+    🕑 أوقات العمل: من 10 صباحًا حتى 10 مساءً <br>
+    🚚 التوصيل متوفر لجميع مناطق العراق <br>
+    💳 الدفع عند الاستلام <br>
+    📦 سياسة الاستبدال خلال 24 ساعة
+  </div>
+
+  <div class="social">
+    <a href="https://wa.me/9647818004585" target="_blank">💬 واتساب</a>
+    <a href="https://www.instagram.com/ali_honosh" target="_blank">📸 إنستغرام</a>
+    <a href="https://www.facebook.com/share/16UEZy9EHd/" target="_blank">📘 فيسبوك</a>
+  </div>
+
   <script>
-    // سلة المشتريات
+    // --- سلة المشتريات ---
     let cart = [];
 
+    // استرجاع بيانات الزبون من LocalStorage
+    window.onload = function() {
+      if(localStorage.getItem("custName")) document.getElementById("custName").value = localStorage.getItem("custName");
+      if(localStorage.getItem("custAddress")) document.getElementById("custAddress").value = localStorage.getItem("custAddress");
+      if(localStorage.getItem("custPhone")) document.getElementById("custPhone").value = localStorage.getItem("custPhone");
+    };
+
     function addToCart(product) {
-      cart.push(product);
+      // تحقق إذا المنتج موجود في السلة
+      let idx = cart.findIndex(p => p.name === product.name && p.price === product.price);
+      if(idx > -1) {
+        cart[idx].qty += 1;
+      } else {
+        product.qty = 1;
+        cart.push(product);
+      }
       updateCartCount();
       showToastMsg("تمت إضافة المنتج إلى السلة!");
     }
 
     function updateCartCount() {
-      document.getElementById("cartCount").textContent = cart.length;
-      document.getElementById("showCartBtn").style.display = cart.length ? "block" : "none";
+      let totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+      document.getElementById("cartCount").textContent = totalQty;
     }
 
     function showCart() {
@@ -228,19 +306,43 @@
         alert("السلة فارغة.");
         return;
       }
-      document.getElementById("cartItems").innerHTML = cart.map((item, i) =>
-        `<li>${item.name} - ${item.price} <button onclick="removeFromCart(${i})" style="color:red;background:none;border:none;cursor:pointer;">❌</button></li>`
+      let itemsHtml = cart.map((item, i) =>
+        `<li>
+          <span style="font-weight:bold;">${item.name}</span> - ${item.price}
+          <button class="cart-qty-btn" onclick="changeQty(${i}, -1)">-</button>
+          <span style="font-weight:bold;">${item.qty}</span>
+          <button class="cart-qty-btn" onclick="changeQty(${i}, 1)">+</button>
+          <button class="cart-remove-btn" onclick="confirmRemove(${i})">❌</button>
+        </li>`
       ).join('');
-      document.getElementById("custName").value = "";
-      document.getElementById("custAddress").value = "";
-      document.getElementById("custPhone").value = "";
+      document.getElementById("cartItems").innerHTML = itemsHtml;
+
+      // حساب المجموع الكلي
+      let total = cart.reduce((sum, item) => sum + (Number(item.price.replace(/[^\d.]/g, "")) * item.qty), 0);
+      let totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+      document.getElementById("cartTotal").innerHTML = `المجموع الكلي: <span style="color:#d81b60">${total} دينار</span> | عدد المنتجات: <span style="color:#c2185b">${totalQty}</span>`;
+
+      // استرجاع بيانات الزبون
+      document.getElementById("custName").value = localStorage.getItem("custName") || "";
+      document.getElementById("custAddress").value = localStorage.getItem("custAddress") || "";
+      document.getElementById("custPhone").value = localStorage.getItem("custPhone") || "";
+
       document.getElementById("cartModal").style.display = "flex";
     }
 
-    function removeFromCart(index) {
-      cart.splice(index, 1);
+    function changeQty(index, delta) {
+      cart[index].qty += delta;
+      if(cart[index].qty < 1) cart[index].qty = 1;
       updateCartCount();
       showCart();
+    }
+
+    function confirmRemove(index) {
+      if(confirm("هل أنت متأكد من حذف هذا المنتج من السلة؟")) {
+        cart.splice(index, 1);
+        updateCartCount();
+        showCart();
+      }
     }
 
     function submitCartOrder() {
@@ -251,10 +353,17 @@
         alert("يرجى ملء جميع الحقول.");
         return;
       }
+      // حفظ بيانات الزبون
+      localStorage.setItem("custName", name);
+      localStorage.setItem("custAddress", address);
+      localStorage.setItem("custPhone", phone);
+
       let msg = "طلب منتجات:\n";
       cart.forEach((item, i) => {
-        msg += `${i+1}- ${item.name} - ${item.price}\n`;
+        msg += `${i+1}- ${item.name} - ${item.price} × ${item.qty}\n`;
       });
+      let total = cart.reduce((sum, item) => sum + (Number(item.price.replace(/[^\d.]/g, "")) * item.qty), 0);
+      msg += `المجموع الكلي: ${total} دينار\n`;
       msg += `الاسم: ${name}\nالعنوان: ${address}\nالهاتف: ${phone}`;
       const encoded = encodeURIComponent(msg);
       window.open(`https://wa.me/9647818004585?text=${encoded}`, '_blank');
@@ -294,8 +403,7 @@
           return `https://drive.google.com/uc?export=view&id=${id}`;
         }
       }
-
-return url;
+      return url;
     }
 
     // جلب البيانات من Google Sheets عبر OpenSheet API
@@ -319,7 +427,7 @@ return url;
           } else if (url.includes(".mp4")) {
             mediaContent = `<video controls><source src="${url}" type="video/mp4">فيديو غير مدعوم</video>`;
           } else if (url.match(/\.(jpeg|jpg|gif|png|webp)$/i) || url.includes("drive.google.com/uc?export=view&id=")) {
-            mediaContent = `<img src="${url}" alt="${item["الاسم"] || ""}" />`;
+            mediaContent = `<img src="${url}" alt="${item["الاسم"] || ""}" loading="lazy" />`;
           } else if (url) {
             mediaContent = `<a href="${url}" target="_blank">رابط خارجي</a>`;
           } else {
@@ -329,7 +437,14 @@ return url;
           const shortDesc = (item["الوصف"] || "").slice(0, 60);
           const fullDesc = item["الوصف"] || "";
 
+          // شارة جديد أو عرض خاص (من عمود "شارة" في الشيت)
+          let badge = "";
+          if(item["شارة"] && item["شارة"].trim() !== "") {
+            badge = `<span class="badge">${item["شارة"]}</span>`;
+          }
+
           card.innerHTML = `
+            ${badge}
             ${mediaContent}
             <div class="product-info">
               <h2>${item["الاسم"] || "منتج بدون اسم"}</h2>
@@ -357,10 +472,5 @@ return url;
         alert("حدث خطأ أثناء تحميل المنتجات. يرجى المحاولة لاحقًا.");
       });
   </script>
-  <div class="social">
-    <a href="https://wa.me/9647818004585" target="_blank">💬 واتساب</a>
-    <a href="https://www.instagram.com/ali_honosh" target="_blank">📸 إنستغرام</a>
-    <a href="https://www.facebook.com/share/16UEZy9EHd/" target="_blank">📘 فيسبوك</a>
-  </div>
 </body>
 </html>
