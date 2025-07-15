@@ -230,42 +230,43 @@
     padding: 10px 20px 10px 10px;
     background: #fafafa;
     }
-     #showCartBtn {
-      position: relative;
-      top:80px;
-      left: 20px;
-      z-index: 5000;
-      background: #c2185b;
-      color: #fff;
-      padding: 8px 9px;
-      border: none;
-      border-radius: 20px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      font-size: 1.3em;
-      font-weight: bold;  
-      box-shadow: 0 4px 16px rgba(0,0,0,0.13);
-      transition: background  0.3, box-shadow 0.3s;     
-    } 
-  showCartBtn:hover {
+    #showCartBtn {
+  position: fixed;           /* ثابت في أعلى الصفحة */
+  top: 20px;                 /* قريب من الأعلى */
+  right: 20px;               /* في أقصى اليمين */
+  z-index: 5000;
+  background: #c2185b;
+  color: #fff;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 1.3em;
+  font-weight: bold;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+  transition: background 0.3s, box-shadow 0.3s;
+}
+#showCartBtn:hover {
   background: #ad1457;
   box-shadow: 0 6px 20px rgba(0,0,0,0.18);
-	  
 }
 #cartCount {
   background: #fff;
-  position: absolute;	
-  top: 0px;
+  position: absolute;
+  top: -12px;         /* يعلو الزر قليلاً */
+  right: -12px;       /* يخرج قليلاً عن الزر من اليمين */
   color: #c2185b;
   border-radius: 50%;
   padding: 4px 10px;
-  margin-right: 8px;
-  font-size: 0.4em;
+  font-size: 0.8em;
   font-weight: bold;
-  min-width: 15px;
+  min-width: 20px;
   text-align: center;
   display: inline-block;
+  border: 2px solid #c2185b;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 		  
 	
@@ -275,7 +276,10 @@
 <body>
   <!-- لوجو المحل -->
   <h1>✨ كوزمتك علي حنوش - العروض اليومية ✨</h1>
-  <button id="showCartBtn">🛒 السلة (<span id="cartCount">0</span>)</button>
+  <button id="showCartBtn">
+  🛒 السلة
+  <span id="cartCount">0</span>
+</button>
   <div class="products" id="product-list"></div>
 
   <!-- نافذة السلة -->
