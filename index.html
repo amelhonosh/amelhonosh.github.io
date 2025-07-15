@@ -126,7 +126,10 @@
       max-width: 400px;
       text-align: right;
       box-shadow: 0 0 15px rgba(0,0,0,0.2);
-    }
+	  max-height: 80vh;      /* هذا يجعل النافذة لا تتجاوز 80% من ارتفاع الشاشة */
+      overflow-y: auto;      /* هذا يجعل النافذة نفسها قابلة للتمرير */
+  /* يمكنك زيادة أو تقليل max-height حسب الحاجة */
+   }
     .modal-content h3 {
       margin-top: 0;
       color: #c2185b;
@@ -185,7 +188,7 @@
     .social {
       width: 100%;
       text-align: center;
-      padding: 20px 0 30px 0;
+      padding: 8px 0 10px 0;
       background: #f5f5f5;
       position: fixed;
       bottom: 0;
@@ -197,7 +200,7 @@
       margin: 0 15px;
       text-decoration: none;
       color: #333;
-      font-size: 1.2em;
+      font-size: 1em;
       transition: color 0.2s;
     }
     .social a:hover {
@@ -235,10 +238,17 @@
       margin-right: 5px;
     }
   </style>
+  cartItems {
+  max-height: none;    /* يمكنك زيادة أو تقليل الرقم حسب رغبتك */
+  overflow-y: visible;
+  margin-bottom: 10px;
+  border: 1px solid #eee;
+  padding: 10px 20px 10px 10px;
+  background: #fafafa;
+}
 </head>
 <body>
   <!-- لوجو المحل -->
-  <img src="https://i.ibb.co/xtxchSdy/IMG-20250714-193958-841.jpg" alt="لوجو كوزمتك علي حنوش" class="logo" />
   <h1>✨ كوزمتك علي حنوش - العروض اليومية ✨</h1>
   <button id="showCartBtn">🛒 السلة (<span id="cartCount">0</span>)</button>
   <div class="products" id="product-list"></div>
@@ -323,10 +333,10 @@
       document.getElementById("cartTotal").innerHTML = `المجموع الكلي: <span style="color:#d81b60">${total} دينار</span> | عدد المنتجات: <span style="color:#c2185b">${totalQty}</span>`;
 
       // استرجاع بيانات الزبون
-      document.getElementById("custName").value = localStorage.getItem("custName") || "";
+	  document.getElementById("custName").value = localStorage.getItem("custName") || "";
       document.getElementById("custAddress").value = localStorage.getItem("custAddress") || "";
       document.getElementById("custPhone").value = localStorage.getItem("custPhone") || "";
-
+     
       document.getElementById("cartModal").style.display = "flex";
     }
 
@@ -350,8 +360,8 @@
       const address = document.getElementById("custAddress").value.trim();
       const phone = document.getElementById("custPhone").value.trim();
       if (!name || !address || !phone) {
-        alert("يرجى ملء جميع الحقول.");
-        return;
+      alert("يرجى ملء جميع الحقول.");
+      return;
       }
       // حفظ بيانات الزبون
       localStorage.setItem("custName", name);
