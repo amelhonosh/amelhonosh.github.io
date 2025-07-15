@@ -237,7 +237,7 @@
       font-size: 1.1em;
       margin-right: 5px;
     }
-    #cartItems {
+    .cartItems {
      max-height: none;    /* يمكنك زيادة أو تقليل الرقم حسب رغبتك */
      overflow-y: visible;
      margin-bottom: 10px;
@@ -245,13 +245,11 @@
     padding: 10px 20px 10px 10px;
     background: #fafafa;
     }
-     /* .showCartBtn {
+     .showCartBtn {
       position: fixed !important;
       top:20px;
       left: 20px;
-      right: auto;
-     bottom: auto;
-      z-index: 3000;
+      z-index: 5000;
       background: #c2185b;
       color: #fff;
       padding: 10px 20px;
@@ -259,9 +257,28 @@
       border-radius: 20px;
       cursor: pointer;
       display: block;
-      font-size: 1.1em;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    } */
+      align-items: center;
+      font-size: 1.3em;
+      font-weight: bold;  
+      box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+      transition: background  0.3, box-shadow 0.3s;     
+    } 
+  .showCartBtn:hover {
+  background: #ad1457;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+}
+.cartCount {
+  background: #fff;
+  color: #c2185b;
+  border-radius: 50%;
+  padding: 4px 12px;
+  margin-right: 8px;
+  font-size: 0.9em;
+  font-weight: bold;
+  min-width: 28px;
+  text-align: center;
+  display: inline-block;
+}
   </style>
 
 </head>
