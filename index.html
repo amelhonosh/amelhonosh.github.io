@@ -268,7 +268,26 @@
   border: 2px solid #c2185b;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
-		  
+.gift-effect {
+  animation: glow 1s infinite alternate, pulse 1s infinite;
+  box-shadow: 0 0 30px 10px #ffeb3b, 0 0 60px 20px #ff9800;
+  border-radius: 10px;
+  position: relative;
+  z-index: 1;
+}
+@keyframes glow {
+  from {
+    box-shadow: 0 0 10px 2px #ffeb3b, 0 0 20px 4px #ff9800;
+  }
+  to {
+    box-shadow: 0 0 30px 10px #ffeb3b, 0 0 60px 20px #ff9800;
+  }
+}
+@keyframes pulse {
+  0% { transform: scale(1);}
+  50% { transform: scale(1.07);}
+  100% { transform: scale(1);}
+}		  
 	
   </style>
 
@@ -451,9 +470,11 @@
       .then(data => {
         const container = document.getElementById("product-list");
         data.forEach(item => {
-          const card = document.createElement("div");
-          card.className = "product";
-
+         const card = document.createElement("div");
+        card.className = "product";
+if ((item["السعر"] || "").trim() === "هدية") {
+  card.classList.add("gift-effect");
+}
           let mediaContent = "";
           let url = item["الصورة"] ? item["الصورة"].trim() : "";
 
@@ -487,7 +508,9 @@
             ${mediaContent}
             <div class="product-info">
               <h2>${item["الاسم"] || "منتج بدون اسم"}</h2>
-              <p class="price">${item["السعر"] || ""}</p>
+              <p class="price">
+  ${item["السعر"] === "هدية" ? '🎁 <b style="color:#d81b60;">هدية مجانية!</b>' : item["السعر"] || ""}
+</p>
               <p class="desc">
                 <span class="short-desc">${shortDesc}...</span>
                 <span class="full-desc" style="display:none;">${fullDesc}</span>
