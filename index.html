@@ -683,12 +683,24 @@
             mediaContent = `<iframe width="100%" height="200" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
           }
           // عرض فيديو mp4 مباشر
-          else if (url.toLowerCase().endsWith(".mp4") || url.includes("drive.google.com/uc?export=view&id=")) {
-            mediaContent = `<video controls width="100%" height="200px" preload="metadata" muted>
-                              <source src="${url}" type="video/mp4">
-                              متصفحك لا يدعم عرض الفيديو.
-                            </video>`;
-          }
+         else if (url.toLowerCase().endsWith(".mp4") || url.includes("drive.google.com/uc?export=view&id=")) {
+  mediaContent = `
+    <video id="video_${item["الاسم"].replace(/\s+/g, '_')}" autoplay loop muted playsinline width="100%" height="200px" preload="metadata" style="cursor:pointer;">
+      <source src="${url}" type="video/mp4">
+      متصفحك لا يدعم عرض الفيديو.
+    </video>
+    <script>
+      (function() {
+        const video = document.getElementById("video_${item["الاسم"].replace(/\s+/g, '_')}");
+        if(video) {
+          video.addEventListener("click", () => {
+            video.muted = !video.muted;
+          });
+        }
+      })();
+    </script>
+  `;
+}
           // عرض صورة إذا الرابط صورة
           else if (url.match(/\.(jpeg|jpg|gif|png|webp)$/i) || url.includes("drive.google.com/uc?export=view&id=")) {
             mediaContent = `<img src="${url}" alt="${item["الاسم"] || ""}" loading="lazy" />`;
