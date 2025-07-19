@@ -698,9 +698,6 @@
           });
         }
       })();
-    </script>
-  `;
-}
           // عرض صورة إذا الرابط صورة
           else if (url.match(/\.(jpeg|jpg|gif|png|webp)$/i) || url.includes("drive.google.com/uc?export=view&id=")) {
             mediaContent = `<img src="${url}" alt="${item["الاسم"] || ""}" loading="lazy" />`;
