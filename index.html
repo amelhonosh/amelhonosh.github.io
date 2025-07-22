@@ -1,9 +1,6 @@
 
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<div id="hamburgerMenu" onclick="openSidebar()" style="position:fixed;top:18px;left:18px;z-index:11000;cursor:pointer;font-size:2em;color:#d81b60;">
-  &#9776;
-</div>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -31,6 +28,8 @@
       .category-btn { width: 48px; height: 48px; font-size:0.95em;}
       .dropdown-content { min-width: 100px; padding: 7px 5px; gap:7px;}
       .products { gap: 8px; padding: 0 2vw 30px 2vw;}
+      .main-header { padding: 10px 0 5px 0; }
+      .modal-content { padding: 15px 5px 10px 5px; max-width: 98vw; }
     }
     #showCartBtn {
       position: fixed;
@@ -89,7 +88,7 @@
       box-shadow: 0 0 15px #0002;
       max-height: 80vh;
       overflow-y: auto;
-	  position : relative;
+      position : relative;
     }
     .cart-item-row {
       display: flex;
@@ -136,22 +135,21 @@
       text-align: center;
       display: inline-block;
     }
-	
-.spec-btn {
-  background: #fff0f6;
-  border: 1.5px solid #d81b60;
-  color: #d81b60;
-  padding: 5px 12px;
-  border-radius: 12px;
-  cursor: pointer;
-  font-size: 0.97em;
-  font-weight: bold;
-  transition: background 0.2s, color 0.2s;
-}
-.spec-btn:hover {
-  background: #d81b60;
-  color: #fff;
-}
+    .spec-btn {
+      background: #fff0f6;
+      border: 1.5px solid #d81b60;
+      color: #d81b60;
+      padding: 5px 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 0.97em;
+      font-weight: bold;
+      transition: background 0.2s, color 0.2s;
+    }
+    .spec-btn:hover {
+      background: #d81b60;
+      color: #fff;
+    }
     .product-name {
       flex: 1;
       font-weight: 600;
@@ -236,85 +234,220 @@
       box-shadow: 0 0 10px #0003;
       font-size: 1em;
     }
+    /* الهامبرغر يظهر فقط على الشاشات الصغيرة */
+    @media (min-width: 700px) {
+      #hamburgerMenu { display: none; }
+    }
   </style>
 </head>
 <body>
+<!-- زر البرغر -->
 <div id="hamburgerMenu" onclick="openSidebar()" style="position:fixed;top:18px;left:18px;z-index:11000;cursor:pointer;font-size:2em;color:#d81b60;">
   &#9776;
 </div>
-  <div class="main-header">
-    <div class="logo">Cosmetic Ali Hinosh</div>
-    <form class="search-bar" onsubmit="event.preventDefault(); searchProducts();">
-      <input type="text" id="searchInput" placeholder="ابحث عن منتج أو قسم..." />
-      <span class="icon" onclick="searchProducts()">🔍</span>
-    </form>
-    <div class="promo-media" id="promoMedia">
-      <video src="https://www.w3schools.com/html/mov_bbb.mp4" autoplay loop muted playsinline></video>
+
+<div class="main-header">
+  <div class="logo">Cosmetic Ali Hinosh</div>
+  <form class="search-bar" onsubmit="event.preventDefault(); searchProducts();">
+    <input type="text" id="searchInput" placeholder="ابحث عن منتج أو قسم..." />
+    <span class="icon" onclick="searchProducts()">🔍</span>
+  </form>
+  <div class="promo-media" id="promoMedia">
+    <video src="https://www.w3schools.com/html/mov_bbb.mp4" autoplay loop muted playsinline></video>
+  </div>
+  <div class="categories" id="categories"></div>
+  <div class="dropdown" id="dropdown"></div>
+</div>
+
+<div class="products" id="product-list"></div>
+
+<!-- زر السلة في الأعلى -->
+<button id="showCartBtn" aria-label="عرض السلة">
+  <span class="cart-icon" aria-hidden="true">🛒</span> السلة
+  <span id="cartCount" aria-live="polite" aria-atomic="true">0</span>
+</button>
+
+<!-- مودال السلة -->
+<div class="modal" id="cartModal" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
+  <div class="modal-content">
+    <div id="cartHeader">
+      <span style="font-size:1.2em;font-weight:bold;">🛒 سلة المشتريات</span>
+      <button id="clearCartBtn" onclick="clearCart()" aria-label="تفريغ السلة">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path d="M3 6h18" stroke="#a0003a" stroke-width="2" stroke-linecap="round"/>
+          <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke="#a0003a" stroke-width="2"/>
+          <rect x="5" y="6" width="14" height="14" rx="2" stroke="#a0003a" stroke-width="2"/>
+          <path d="M10 11v5M14 11v5" stroke="#a0003a" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
     </div>
-    <div class="categories" id="categories"></div>
-    <div class="dropdown" id="dropdown"></div>
-  </div>
-  
-  <div class="products" id="product-list"></div>
-
-  <!-- زر السلة في الأعلى -->
-  <button id="showCartBtn" aria-label="عرض السلة">
-    <span class="cart-icon" aria-hidden="true">🛒</span> السلة
-    <span id="cartCount" aria-live="polite" aria-atomic="true">0</span>
-  </button>
-
-  <!-- مودال السلة -->
-  <div class="modal" id="cartModal" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
-    <div class="modal-content">
-      <div id="cartHeader">
-        <span style="font-size:1.2em;font-weight:bold;">🛒 سلة المشتريات</span>
-        <button id="clearCartBtn" onclick="clearCart()" aria-label="تفريغ السلة">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-            <path d="M3 6h18" stroke="#a0003a" stroke-width="2" stroke-linecap="round"/>
-            <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke="#a0003a" stroke-width="2"/>
-            <rect x="5" y="6" width="14" height="14" rx="2" stroke="#a0003a" stroke-width="2"/>
-            <path d="M10 11v5M14 11v5" stroke="#a0003a" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </button>
-      </div>
-      <ul id="cartItems" style="padding-right:0;list-style:none;margin:0;"></ul>
-      <div id="cartSummary"></div>
-      <hr>
-      <input type="text" id="custName" placeholder="الاسم" aria-label="الاسم" />
-      <input type="text" id="custAddress" placeholder="العنوان" aria-label="العنوان" />
-      <input type="text" id="custPhone" placeholder="رقم الهاتف" aria-label="رقم الهاتف" />
-      <input type="text" id="custLocation" placeholder="رابط اللوكيشن (اختياري)" aria-label="رابط اللوكيشن (اختياري)" />
-      <div style="color:#c2185b; font-size:0.95em; margin-bottom:8px;">
-        📍 يمكنك إرسال رابط اللوكيشن من خرائط Google أو واتساب هنا، أو إرساله لاحقًا.
-      </div>
-      <button onclick="submitCartOrder()" aria-label="إرسال الطلب عبر واتساب">إرسال الطلب عبر واتساب</button>
+    <ul id="cartItems" style="padding-right:0;list-style:none;margin:0;"></ul>
+    <div id="cartSummary"></div>
+    <hr>
+    <input type="text" id="custName" placeholder="الاسم" aria-label="الاسم" />
+    <input type="text" id="custAddress" placeholder="العنوان" aria-label="العنوان" />
+    <input type="text" id="custPhone" placeholder="رقم الهاتف" aria-label="رقم الهاتف" />
+    <input type="text" id="custLocation" placeholder="رابط اللوكيشن (اختياري)" aria-label="رابط اللوكيشن (اختياري)" />
+    <div style="color:#c2185b; font-size:0.95em; margin-bottom:8px;">
+      📍 يمكنك إرسال رابط اللوكيشن من خرائط Google أو واتساب هنا، أو إرساله لاحقًا.
     </div>
+    <button onclick="submitCartOrder()" aria-label="إرسال الطلب عبر واتساب">إرسال الطلب عبر واتساب</button>
   </div>
-  <div class="toast" id="toast" role="alert" aria-live="assertive" aria-atomic="true">✅ تم إرسال الطلب إلى واتساب</div>
+</div>
+<div class="toast" id="toast" role="alert" aria-live="assertive" aria-atomic="true">✅ تم إرسال الطلب إلى واتساب</div>
 
-  <!-- الشريط السفلي مع زر السلة والعداد -->
-  <div class="social">
-    <a href="https://wa.me/9647818004585" target="_blank">💬 واتساب</a>
-    <a href="https://www.instagram.com/ali_honosh" target="_blank">📸 إنستغرام</a>
-    <a href="https://www.facebook.com/share/16UEZy9EHd/" target="_blank">📘 فيسبوك</a>
-    <span>|</span>
-    <a href="https://maps.app.goo.gl/Du52raCa55HjmACX8" target="_blank">📍الفرع الأول</a>
-    <a href="https://maps.app.goo.gl/Du52raCa55HjmACX8" target="_blank">📍الفرع الثاني</a>
-<a href="#" onclick="showModal('contact');return false;">📞 اتصل بنا</a>
-<a href="#" onclick="showModal('about');return false;">ℹ️ من نحن</a>
-    <a href="#" onclick="showCart();return false;">
-      🛒 السلة <span id="cartCountFooter" style="background:#d81b60;color:#fff;border-radius:50%;padding:2px 8px;font-size:0.9em;">0</span>
-    </a>
+<!-- الشريط السفلي مع زر السلة والعداد -->
+<div class="social">
+  <a href="https://wa.me/9647818004585" target="_blank">💬 واتساب</a>
+  <a href="https://www.instagram.com/ali_honosh" target="_blank">📸 إنستغرام</a>
+  <a href="https://www.facebook.com/share/16UEZy9EHd/" target="_blank">📘 فيسبوك</a>
+  <span>|</span>
+  <a href="https://maps.app.goo.gl/Du52raCa55HjmACX8" target="_blank">📍الفرع الأول</a>
+  <a href="https://maps.app.goo.gl/Du52raCa55HjmACX8" target="_blank">📍الفرع الثاني</a>
+  <a href="#" onclick="showModal('contact');return false;">📞 اتصل بنا</a>
+  <a href="#" onclick="showModal('about');return false;">ℹ️ من نحن</a>
+  <a href="#" onclick="showCart();return false;">
+    🛒 السلة <span id="cartCountFooter" style="background:#d81b60;color:#fff;border-radius:50%;padding:2px 8px;font-size:0.9em;">0</span>
+  </a>
+</div>
+
+<div class="info-footer">
+  ✨ كوزمتك علي حنوش ✨ جمالكِ... يبدأ من هنا! <br>
+  🕑 أوقات العمل: من 10 صباحًا حتى 12 مساءً <br>
+  🚚 التوصيل متوفر لجميع مناطق العراق <br>
+  💳 الدفع عند الاستلام <br>
+</div>
+
+<!-- القائمة الجانبية (sidebar) -->
+<div id="sidebar" style="display:none;position:fixed;top:0;left:0;width:0;height:100vh;background:#fff;box-shadow:2px 0 12px #0002;z-index:12000;overflow-x:hidden;transition:0.3s;">
+  <div style="padding:18px 18px 10px 0;text-align:right;">
+    <span onclick="closeSidebar()" style="font-size:2em;cursor:pointer;color:#d81b60;">&times;</span>
   </div>
+  <div id="sidebarContent" style="padding:0 18px 18px 0;"></div>
+</div>
 
-  <div class="info-footer">
-    ✨ كوزمتك علي حنوش ✨ جمالكِ... يبدأ من هنا! <br>
-    🕑 أوقات العمل: من 10 صباحًا حتى 12 مساءً <br>
-    🚚 التوصيل متوفر لجميع مناطق العراق <br>
-    💳 الدفع عند الاستلام <br>
+<!-- مودال اتصل بنا -->
+<div id="contactModal" class="modal" style="display:none;">
+  <div class="modal-content" style="max-width:400px;">
+    <span onclick="closeModal('contactModal')" style="float:left;cursor:pointer;font-size:1.5em;color:#d81b60;">&times;</span>
+    <h2 style="color:#d81b60;">اتصل بنا</h2>
+    <p>📍 الفرع 1: السماوة، السوق المسكوف، مقابل مجمع يوتا</p>
+    <p>أدهم📞 رقم الهاتف: <a href="tel:07808183123" style="color:#ad1457;">07808183123</a></p>
+    <p>أكرم📞 رقم الهاتف: <a href="tel:07806132510" style="color:#ad1457;">07806132510</a></p>
+    <p>📍 الفرع 2: مول البركة، الطابق الثاني، مقابل مطعم شمس</p>
+    <p>أركان📞 رقم الهاتف: <a href="tel:07818004585" style="color:#ad1457;">07818004585</a></p>
+    <p>💬 واتساب: <a href="https://wa.me/9647818004585" target="_blank" style="color:#ad1457;">اضغط هنا</a></p>
+    <p>💄 كل جديد في عالم التجميل والعناية متوفر لدينا، مع 🚚 توصيل لجميع محافظات العراق.</p>
   </div>
+</div>
 
-  <script>
+<!-- مودال من نحن -->
+<div id="aboutModal" class="modal" style="display:none;">
+  <div class="modal-content" style="max-width:400px;">
+    <span onclick="closeModal('aboutModal')" style="float:left;cursor:pointer;font-size:1.5em;color:#d81b60;">&times;</span>
+    <h2 style="color:#d81b60;">من نحن</h2>
+    <p>💫 قصة كوزمتك علي حنوش – حين يتحول الشغف إلى علامة فارقة 💎</p>
+    <p>💫 لم نبدأ في وقت كان فيه الجميع يركض خلف الجمال...
+    بل بدأنا في عام 2006، عندما لم يكن أحد يؤمن أن "الكوزمتك" سيكون يوماً ما أسلوب حياة.💎</p>
+    <p>📍 في زمنٍ كان الحديث عن مستحضرات العناية يُقابل بالاستغراب...
+    كنا نحن هناك، نزرع أول بذور الحلم وسط أرض صلبة، بين تعب السوق وقلة الفُرَص.</p>
+    <p>💫 ✨ لم نبع منتجات فقط، بل بعنا ثقة... وقدمنا نصيحة قبل البيع.
+    رفضنا أن نكون كأي متجر، وأصررنا أن نكون الاسم الذي يُثق به قبل أن يُشترى منه. 💎</p>
+    <p>🚪 تعثرنا كثيراً، وبكينا خلف الأبواب المغلقة، لكننا كنا نؤمن أن من يزرع حب الجمال الصادق، سيُحصد وفاء لا ينتهي.</p>
+    <p>وبينما كان البعض يكتشف عالم الكوزمتك حديثًا...
+    كنا نحن قد افتتحنا الفرع الثاني، لأننا لم نكن نكبر فقط في المساحة… بل في التأثير ❤️
+    </p>
+    <p>🔬 خضنا تدريبات ودورات، وحملنا دفاتر وقلم...
+    تعلمنا أسرار البشرة، وحلول الشعر، وطقوس الجمال النقي.
+    حتى صرنا أهل الخبرة، وأول من يُسأل عند الحيرة.</p>
+    <p>واليوم...
+    نحن لسنا فقط محلًا. نحن الاسم، الهوية، السر الذي تحتفظ به الجميلات بينهن.</p>
+    <p>كل من تدخل أحد فروع كوزمتك علي حنوش... لا تشتري منتجاً، بل تشتري قطعة من الفخامة.
+    تشتري مكانًا يليق بها.</p>
+    <p>💻 والآن... بوابتك نحو الفخامة أصبحت أقرب مما تتخيل!
+    </p>
+    <p>📲 أطلقنا المتجر الإلكتروني الخاص بـ كوزمتك علي حنوش
+    واجهة بسيطة... لكن مفعمة بالسحر.
+    تصفح، اختاري، أضيفي إلى السلة... وفي لحظات، يصلك الجمال حتى بابك 💌
+    </p>
+    <p>🖤 ستندهشين من بساطة التجربة...
+    وكأنك تمشين داخل أحد فروعنا، لكن بأطراف أصابعك.</p>
+    <p>🚪 هناك، ستجدين:</p>
+    <p> "المنتج الذي كنتِ تبحثين عنه منذ سنوات... دون أن تعرفي اسمه"
+    "اللون الذي يناسبك، قبل أن تسألي عن رقم الدرجة"
+    "الحل الذي تحتاجه بشرتك... قبل أن تصرخي طلباً للمساعدة"</p>
+  </div>
+</div>
+
+<script>
+function showModal(id) {
+  if(id === 'contact') id = 'contactModal';
+  if(id === 'about') id = 'aboutModal';
+  document.getElementById(id).style.display = "flex";
+}
+function closeModal(id) {
+  document.getElementById(id).style.display = "none";
+}
+// إغلاق المودال عند الضغط خارج المحتوى
+window.addEventListener('click', function(e){
+  if(e.target.classList.contains('modal')) e.target.style.display = 'none';
+});
+</script>
+
+<script>
+// --- القائمة الجانبية (sidebar) ---
+function openSidebar() {
+  document.getElementById('sidebar').style.display = 'block';
+  setTimeout(()=>{document.getElementById('sidebar').style.width = '270px';}, 10);
+  renderSidebarCategories();
+}
+function closeSidebar() {
+  document.getElementById('sidebar').style.width = '0';
+  setTimeout(()=>{document.getElementById('sidebar').style.display = 'none';}, 300);
+}
+let sidebarSelectedCat = null;
+function renderSidebarCategories() {
+  let html = '';
+  if (typeof CATEGORIES === "undefined" || !CATEGORIES.length) {
+    html = '<div style="padding:15px;color:#d81b60;">جاري التحميل...</div>';
+  } else {
+    CATEGORIES.forEach((cat, idx) => {
+      html += `<div style="padding:10px 0;border-bottom:1px solid #eee;cursor:pointer;font-weight:bold;color:${sidebarSelectedCat===cat.name?'#d81b60':'#222'}"
+           onclick="toggleSidebarSub(${idx})">
+        ${cat.icon} ${cat.name}
+      </div>
+      `;
+      if(sidebarSelectedCat === cat.name && cat.subs && cat.subs.length > 0) {
+        html += `<div style="padding-right:18px;">`;
+        cat.subs.forEach(sub => {
+          html += `<div style="padding:7px 0 7px 0;color:#555;cursor:pointer;" onclick="selectSidebarSub('${cat.name}','${sub}');event.stopPropagation();">- ${sub}</div>`;
+        });
+        html += `</div>`;
+      }
+    });
+  }
+  document.getElementById('sidebarContent').innerHTML = html;
+}
+function toggleSidebarSub(idx) {
+  let cat = CATEGORIES[idx];
+  if(sidebarSelectedCat === cat.name) {
+    sidebarSelectedCat = null;
+  } else {
+    sidebarSelectedCat = cat.name;
+  }
+  renderSidebarCategories();
+}
+function selectSidebarSub(cat, sub) {
+  selectedCategory = cat;
+  selectedSubcategory = sub;
+  renderCategories();
+  renderDropdown(CATEGORIES.findIndex(c => c.name === cat));
+  renderProducts();
+  closeSidebar();
+}
+</script>
+
+<script>
     // --- بيانات المنتجات والأقسام من Google Sheet ---
     let selectedCategory = null;
     let selectedSubcategory = null;
@@ -371,7 +504,7 @@
       } else {
         selectedCategory = CATEGORIES[idx].name;
         selectedSubcategory = null;
-		renderCategories();
+        renderCategories();
         renderDropdown(idx);
         renderProducts();
       }
@@ -465,31 +598,29 @@
         else {
           mediaContent = `<div style="height:200px; display:flex; align-items:center; justify-content:center; background:#eee; color:#999;">لا توجد صورة</div>`;
         }
-        const shortDesc = (item["الوصف"] || "").slice(0, 60);
-        const fullDesc = item["الوصف"] || "";
         let badge = "";
         if(item["شارة"] && item["شارة"].trim() !== "") {
           badge = `<span class="badge">${item["شارة"]}</span>`;
         }
-       card.innerHTML = `
-  ${badge}
-  ${mediaContent}
-  <div class="product-info">
-    <h2>${item["الاسم"] || "منتج بدون اسم"}</h2>
-    <div style="display:flex;align-items:center;gap:8px;">
-      <p class="price" style="margin:0;">
-        ${item["السعر"] === "هدية" ? '🎁 <b style="color:#d81b60;">هدية مجانية!</b>' : item["السعر"] || ""}
-      </p>
-      <button class="spec-btn" onclick="toggleDesc(this)" style="background:#fff0f6;border:1.5px solid #d81b60;color:#d81b60;padding:5px 12px;border-radius:12px;cursor:pointer;font-size:0.97em;font-weight:bold;">مواصفات المنتج</button>
-    </div>
-    <div class="desc" style="display:none;margin-top:8px;color:#555;background:#fce4ec;padding:10px;border-radius:10px;">
-      ${item ["الوصف"] || "لا توجد مواصفات."}
-    </div>
-    <button class="order-btn" onclick="addToCart({name: '${(item["الاسم"] || "").replace(/'/g, "\\'")}', price: '${(item["السعر"] || "").replace(/'/g, "\\'")}'})" aria-label="أضف ${item["الاسم"] || "منتج"} إلى السلة">
-      🛒 أضف إلى السلة
-    </button>
-  </div>
-`;
+        card.innerHTML = `
+          ${badge}
+          ${mediaContent}
+          <div class="product-info">
+            <h2>${item["الاسم"] || "منتج بدون اسم"}</h2>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <p class="price" style="margin:0;">
+                ${item["السعر"] === "هدية" ? '🎁 <b style="color:#d81b60;">هدية مجانية!</b>' : item["السعر"] || ""}
+              </p>
+              <button class="spec-btn" onclick="toggleDesc(this)" style="background:#fff0f6;border:1.5px solid #d81b60;color:#d81b60;padding:5px 12px;border-radius:12px;cursor:pointer;font-size:0.97em;font-weight:bold;">مواصفات المنتج</button>
+            </div>
+            <div class="desc" style="display:none;margin-top:8px;color:#555;background:#fce4ec;padding:10px;border-radius:10px;">
+              ${item["الوصف"] || "لا توجد مواصفات."}
+            </div>
+            <button class="order-btn" onclick="addToCart({name: '${(item["الاسم"] || "").replace(/'/g, "\\'")}', price: '${(item["السعر"] || "").replace(/'/g, "\\'")}'})" aria-label="أضف ${item["الاسم"] || "منتج"} إلى السلة">
+              🛒 أضف إلى السلة
+            </button>
+          </div>
+        `;
         container.appendChild(card);
       });
     }
@@ -687,176 +818,17 @@
     document.addEventListener("DOMContentLoaded", () => {
       updateCartCount();
     });
-	function toggleDesc(btn) {
-  var desc = btn.parentElement.parentElement.querySelector('.desc');
-  if(desc.style.display === "none" || desc.style.display === "") {
-    desc.style.display = "block";
-    btn.textContent = "إخفاء المواصفات";
-  } else {
-    desc.style.display = "none";
-    btn.textContent = "مواصفات المنتج";
-  }
-}
 
-  </script>
-   
-  function toggleDesc(btn) {
-  var desc = btn.parentElement.parentElement.querySelector('.desc');
-  if(desc.style.display === "none" || desc.style.display === "") {
-    desc.style.display = "block";
-    btn.textContent = "إخفاء المواصفات";
-  } else {
-    desc.style.display = "none";
-    btn.textContent = "مواصفات المنتج";
-  }
-}
-
-<div id="contactModal" class="modal" style="display:none;">
-  <div class="modal-content" style="max-width:400px;">
-    <span onclick="closeModal('contactModal')" style="float:left;cursor:pointer;font-size:1.5em;color:#d81b60;">&times;</span>
-    <h2 style="color:#d81b60;">اتصل بنا</h2>
-    <p>📍 الفرع 1: السماوة، السوق المسكوف، مقابل مجمع يوتا</p>
-    <p>أدهم📞 رقم الهاتف: <a href="tel:07808183123" style="color:#ad1457;">07808183123</a></p>
-    <p>أكرم📞 رقم الهاتف: <a href="tel:07806132510" style="color:#ad1457;">07806132510</a></p>
-    <p>📍 الفرع 2: مول البركة، الطابق الثاني، مقابل مطعم شمس</p>
-    <p>أركان📞 رقم الهاتف: <a href="tel:07818004585" style="color:#ad1457;">07818004585</a></p>
-    <p>💬 واتساب: <a href="https://wa.me/9647818004585" target="_blank" style="color:#ad1457;">اضغط هنا</a></p>
-    <p>💄 كل جديد في عالم التجميل والعناية متوفر لدينا، مع 🚚 توصيل لجميع محافظات العراق.</p>
-  </div>
-</div>
-
-<!-- مودال من نحن -->
-<div id="aboutModal" class="modal" style="display:none;">
-  <div class="modal-content" style="max-width:400px;">
-    <span onclick="closeModal('aboutModal')" style="float:left;cursor:pointer;font-size:1.5em;color:#d81b60;">&times;</span>
-    <h2 style="color:#d81b60;">من نحن</h2>
-    <p>💫 قصة كوزمتك علي حنوش – حين يتحول الشغف إلى علامة فارقة 💎</p>
-    <p>💫 لم نبدأ في وقت كان فيه الجميع يركض خلف الجمال...
-    بل بدأنا في عام 2006، عندما لم يكن أحد يؤمن أن "الكوزمتك" سيكون يوماً ما أسلوب حياة.💎</p>
-    <p>📍 في زمنٍ كان الحديث عن مستحضرات العناية يُقابل بالاستغراب...
-    كنا نحن هناك، نزرع أول بذور الحلم وسط أرض صلبة، بين تعب السوق وقلة الفُرَص.</p>
-    <p>💫 ✨ لم نبع منتجات فقط، بل بعنا ثقة... وقدمنا نصيحة قبل البيع.
-    رفضنا أن نكون كأي متجر، وأصررنا أن نكون الاسم الذي يُثق به قبل أن يُشترى منه. 💎</p>
-    <p>🚪 تعثرنا كثيراً، وبكينا خلف الأبواب المغلقة، لكننا كنا نؤمن أن من يزرع حب الجمال الصادق، سيُحصد وفاء لا ينتهي.</p>
-    <p>وبينما كان البعض يكتشف عالم الكوزمتك حديثًا...
-    كنا نحن قد افتتحنا الفرع الثاني، لأننا لم نكن نكبر فقط في المساحة… بل في التأثير ❤️
-    </p>
-    <p>🔬 خضنا تدريبات ودورات، وحملنا دفاتر وقلم...
-    تعلمنا أسرار البشرة، وحلول الشعر، وطقوس الجمال النقي.
-    حتى صرنا أهل الخبرة، وأول من يُسأل عند الحيرة.</p>
-    <p>واليوم...
-    نحن لسنا فقط محلًا. نحن الاسم، الهوية، السر الذي تحتفظ به الجميلات بينهن.</p>
-    <p>كل من تدخل أحد فروع كوزمتك علي حنوش... لا تشتري منتجاً، بل تشتري قطعة من الفخامة.
-    تشتري مكانًا يليق بها.</p>
-    <p>💻 والآن... بوابتك نحو الفخامة أصبحت أقرب مما تتخيل!
-    </p>
-    <p>📲 أطلقنا المتجر الإلكتروني الخاص بـ كوزمتك علي حنوش
-    واجهة بسيطة... لكن مفعمة بالسحر.
-    تصفح، اختاري، أضيفي إلى السلة... وفي لحظات، يصلك الجمال حتى بابك 💌
-    </p>
-    <p>🖤 ستندهشين من بساطة التجربة...
-    وكأنك تمشين داخل أحد فروعنا، لكن بأطراف أصابعك.</p>
-    <p>🚪 هناك، ستجدين:</p>
-    <p> "المنتج الذي كنتِ تبحثين عنه منذ سنوات... دون أن تعرفي اسمه"
-    "اللون الذي يناسبك، قبل أن تسألي عن رقم الدرجة"
-    "الحل الذي تحتاجه بشرتك... قبل أن تصرخي طلباً للمساعدة"</p>
-  </div>
-</div>
-
-<script>
-function showModal(id) {
-  if(id === 'contact') id = 'contactModal';
-  if(id === 'about') id = 'aboutModal';
-  document.getElementById(id).style.display = "flex";
-}
-function closeModal(id) {
-  document.getElementById(id).style.display = "none";
-}
-// إغلاق المودال عند الضغط خارج المحتوى
-window.addEventListener('click', function(e){
-  if(e.target.classList.contains('modal')) e.target.style.display = 'none';
-});
-</script>
-
-
-</script>
-
-
-<script>
-function openSidebar() {
-  document.getElementById('sidebar').style.display = 'block';
-  setTimeout(()=>{document.getElementById('sidebar').style.width = '270px';}, 10);
-  renderSidebarCategories();
-}
-function closeSidebar() {
-  document.getElementById('sidebar').style.width = '0';
-  setTimeout(()=>{document.getElementById('sidebar').style.display = 'none';}, 300);
-}
-</script>
-```
-
-### 3. إذا بقي الخطأ، احذفي كل السكريبتات الخاصة بالسايدبار وأعيدي لصق الكود التالي في آخر الصفحة قبل </body>:
-
-```html
-<!-- القائمة الجانبية (sidebar) -->
-<div id="sidebar" style="display:none;position:fixed;top:0;left:0;width:0;height:100vh;background:#fff;box-shadow:2px 0 12px #0002;z-index:12000;overflow-x:hidden;transition:0.3s;">
-  <div style="padding:18px 18px 10px 0;text-align:right;">
-    <span onclick="closeSidebar()" style="font-size:2em;cursor:pointer;color:#d81b60;">&times;</span>
-  </div>
-  <div id="sidebarContent" style="padding:0 18px 18px 0;"></div>
-</div>
-
-<script>
-function openSidebar() {
-  document.getElementById('sidebar').style.display = 'block';
-  setTimeout(()=>{document.getElementById('sidebar').style.width = '270px';}, 10);
-  renderSidebarCategories();
-}
-function closeSidebar() {
-  document.getElementById('sidebar').style.width = '0';
-  setTimeout(()=>{document.getElementById('sidebar').style.display = 'none';}, 300);
-}
-
-let sidebarSelectedCat = null;
-function renderSidebarCategories() {
-  let html = '';
-  if (typeof CATEGORIES === "undefined" || !CATEGORIES.length) {
-    html = '<div style="padding:15px;color:#d81b60;">جاري التحميل...</div>';
-  } else {
-    CATEGORIES.forEach((cat, idx) => {
-      html += `<div style="padding:10px 0;border-bottom:1px solid #eee;cursor:pointer;font-weight:bold;color:${sidebarSelectedCat===cat.name?'#d81b60':'#222'}"
-           onclick="toggleSidebarSub(${idx})">
-        ${cat.icon} ${cat.name}
-      </div>
-      `;
-      if(sidebarSelectedCat === cat.name && cat.subs && cat.subs.length > 0) {
-        html += `<div style="padding-right:18px;">`;
-        cat.subs.forEach(sub => {
-          html += `<div style="padding:7px 0 7px 0;color:#555;cursor:pointer;" onclick="selectSidebarSub('${cat.name}','${sub}');event.stopPropagation();">- ${sub}</div>`;
-        });
-        html += `</div>`;
+    function toggleDesc(btn) {
+      var desc = btn.parentElement.parentElement.querySelector('.desc');
+      if(desc.style.display === "none" || desc.style.display === "") {
+        desc.style.display = "block";
+        btn.textContent = "إخفاء المواصفات";
+      } else {
+        desc.style.display = "none";
+        btn.textContent = "مواصفات المنتج";
       }
-    });
-  }
-  document.getElementById('sidebarContent').innerHTML = html;
-}
-function toggleSidebarSub(idx) {
-  let cat = CATEGORIES[idx];
-  if(sidebarSelectedCat === cat.name) {
-    sidebarSelectedCat = null;
-  } else {
-    sidebarSelectedCat = cat.name;
-  }
-  renderSidebarCategories();
-}
-function selectSidebarSub(cat, sub) {
-  selectedCategory = cat;
-  selectedSubcategory = sub;
-  renderCategories();
-  renderDropdown(CATEGORIES.findIndex(c => c.name === cat));
-  renderProducts();
-  closeSidebar();
-}
+    }
 </script>
 </body>
 </html>
