@@ -412,17 +412,26 @@
     font-size: 0.85em;
   }
 }
-
+  * {
+     box-sizing: border-box;
+   }
+     @media (max-width: 600px) {
+     .search-bar, .your-element {
+       width: 100%;
+       margin: 0 auto;
+     }
+   }
 .search-bar {
   width: 100%;
-  max-width:90%;
+  max-width:100%;
   display: flex;
   align-items: center;
-  margin: 0 auto 15px auto;
+  margin: 0 auto ;
    background: #fff;
   border-radius: 10px;
   box-shadow: 0 2px 8px #d81b6011;
   padding: 0 8px;
+    box-sizing: border-box;
 }
 .search-bar .icon {
   margin-right: -35px;
