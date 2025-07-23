@@ -419,6 +419,19 @@
   display: flex;
   align-items: center;
   margin: 0 auto 15px auto;
+   background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px #d81b6011;
+  padding: 0 8px;
+}
+.search-bar .icon {
+  margin-right: -35px;
+  background: none;
+  border: none;
+  font-size: 1.4em;
+  color: #d81b60;
+  cursor: pointer;
+  z-index: 2;
 }
 
 .search-bar input[type="text"] {
@@ -429,6 +442,7 @@
   border: 1.5px solid #d81b60;
   outline: none;
   box-sizing: border-box;
+  background: transparent;
 }
   </style>
 </head>
@@ -437,10 +451,10 @@
 
 <div class="main-header">
   <div class="logo">Cosmetic Ali Hinosh</div>
-  <form class="search-bar" onsubmit="event.preventDefault(); searchProducts();">
-    <input type="text" id="searchInput" placeholder="ابحث عن منتج أو قسم..." />
-    <span class="icon" onclick="searchProducts()">🔍</span>
-  </form>
+   <form class="search-bar" onsubmit="event.preventDefault(); searchProducts();">
+  <input type="text" id="searchInput" placeholder="ابحث عن منتج أو قسم..." oninput="searchProducts()">
+  <button type="submit" class="icon"><i class="fa fa-search"></i></button>
+</form>
   <div class="promo-media" id="promoMedia">
     <video src="https://www.w3schools.com/html/mov_bbb.mp4" autoplay loop muted playsinline></video>
   </div>
@@ -734,14 +748,27 @@ function selectSidebarSub(cat, sub) {
     }
 
     // --- البحث ---
-    function searchProducts() {
-      selectedCategory = null;
-      selectedSubcategory = null;
-      renderCategories();
-      renderDropdown(null);
-      renderProducts();
-    }
+function searchProducts() {
+  selectedCategory = null;
+  selectedSubcategory = null;
+  renderCategories();
+  renderDropdown(null);
 
+  let search = document.getElementById("searchInput").value.trim().toLowerCase();
+  let filtered = ALL_PRODUCTS;
+
+  if (search) {
+    filtered = filtered.filter(p =>
+      ((p["الاسم"] || "").toLowerCase().includes(search)) ||
+      ((p["القسم"] || "").toLowerCase().includes(search)) ||
+      ((p["القسم الفرعي"] || "").toLowerCase().includes(search)) ||
+      ((p["الوصف"] || "").toLowerCase().includes(search)) ||
+      ((p["شارة"] || "").toLowerCase().includes(search))
+    );
+  }
+
+  renderProducts(filtered);
+}
     // --- تحويل روابط Google Drive ---
     function getDirectImageUrl(url) {
       if (!url) return "";
@@ -760,84 +787,78 @@ function selectSidebarSub(cat, sub) {
     }
 
     // --- رسم المنتجات ---
-    function renderProducts() {
-      const container = document.getElementById("product-list");
-      let search = document.getElementById("searchInput").value.trim();
-      let filtered = ALL_PRODUCTS;
-      if (selectedCategory) {
-        filtered = filtered.filter(p => (p["القسم"] || "").includes(selectedCategory));
+   function renderProducts(filteredList) {
+  const container = document.getElementById("product-list");
+  let filtered = filteredList || ALL_PRODUCTS;
+
+  // فلترة حسب القسم أو القسم الفرعي إذا كانت محددة
+  if (selectedCategory) {
+    filtered = filtered.filter(p => (p["القسم"] || "").includes(selectedCategory));
+  }
+  if (selectedSubcategory) {
+    filtered = filtered.filter(p => (p["القسم الفرعي"] || "").includes(selectedSubcategory));
+  }
+
+  container.innerHTML = "";
+  if (filtered.length === 0) {
+    container.innerHTML = "<div style='text-align:center;color:#d81b60;font-size:1.2em;'>لا توجد منتجات مطابقة</div>";
+    return;
+  }
+  filtered.forEach(item => {
+    const card = document.createElement("div");
+    card.className = "product";
+    let url = item["الصورة"] ? item["الصورة"].trim() : "";
+    url = getDirectImageUrl(url);
+    let mediaContent = "";
+    if (url.includes("youtube.com") || url.includes("youtu.be")) {
+      let videoId = "";
+      if (url.includes("v=")) {
+        videoId = url.split("v=")[1].split("&")[0];
+      } else if (url.includes("youtu.be/")) {
+        videoId = url.split("youtu.be/")[1].split("?")[0];
       }
-      if (selectedSubcategory) {
-        filtered = filtered.filter(p => (p["القسم الفرعي"] || "").includes(selectedSubcategory));
-      }
-      if (search) {
-        filtered = filtered.filter(p =>
-          (p["الاسم"] || "").includes(search) ||
-          (p["القسم"] || "").includes(search) ||
-          (p["القسم الفرعي"] || "").includes(search) ||
-          (p["الوصف"] || "").includes(search)
-        );
-      }
-      container.innerHTML = "";
-      if (filtered.length === 0) {
-        container.innerHTML = "<div style='text-align:center;color:#d81b60;font-size:1.2em;'>لا توجد منتجات مطابقة</div>";
-        return;
-      }
-      filtered.forEach(item => {
-        const card = document.createElement("div");
-        card.className = "product";
-        let url = item["الصورة"] ? item["الصورة"].trim() : "";
-        url = getDirectImageUrl(url);
-        let mediaContent = "";
-        if (url.includes("youtube.com") || url.includes("youtu.be")) {
-          let videoId = "";
-          if (url.includes("v=")) {
-            videoId = url.split("v=")[1].split("&")[0];
-          } else if (url.includes("youtu.be/")) {
-            videoId = url.split("youtu.be/")[1].split("?")[0];
-          }
-          mediaContent = `<iframe width="100%" height="200" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
-        }
-        else if (url.toLowerCase().endsWith(".mp4") || url.includes("drive.google.com/uc?export=view&id=")) {
-          mediaContent = `
-            <video class="product-video" autoplay loop muted playsinline width="100%" height="200px" preload="metadata" style="cursor:pointer;">
-              <source src="${url}" type="video/mp4">
-              متصفحك لا يدعم عرض الفيديو.
-            </video>
-          `;
-        }
-        else if (url.match(/\.(jpeg|jpg|gif|png|webp)$/i)) {
-          mediaContent = `<img src="${url}" alt="${item["الاسم"] || ""}" loading="lazy" />`;
-        }
-        else {
-          mediaContent = `<div style="height:200px; display:flex; align-items:center; justify-content:center; background:#eee; color:#999;">لا توجد صورة</div>`;
-        }
-        let badge = "";
-        if(item["شارة"] && item["شارة"].trim() !== "") {
-          badge = `<span class="badge">${item["شارة"]}</span>`;
-        }
-        card.innerHTML = `
-          ${badge}
-          ${mediaContent}
-          <div class="product-info">
-            <h2>${item["الاسم"] || "منتج بدون اسم"}</h2>
-            <div style="display:flex;align-items:center;gap:8px;">
-              <p class="price" style="margin:0;">
-                ${item["السعر"] === "هدية" ? '🎁 <b style="color:#d81b60;">هدية مجانية!</b>' : item["السعر"] || ""}
-              </p>
-              <button class="spec-btn" onclick="toggleDesc(this)" style="background:#fff0f6;border:1.5px solid #d81b60;color:#d81b60;padding:5px 12px;border-radius:12px;cursor:pointer;font-size:0.97em;font-weight:bold;">مواصفات المنتج</button>
-            </div>
-            <div class="desc" style="display:none;margin-top:8px;color:#555;background:#fce4ec;padding:10px;border-radius:10px;">
-              ${item["الوصف"] || "لا توجد مواصفات."}
-            </div>
-            <button class="order-btn" onclick="addToCart({name: '${(item["الاسم"] || "").replace(/'/g, "\\'")}', price: '${(item["السعر"] || "").replace(/'/g, "\\'")}'})" aria-label="أضف ${item["الاسم"] || "منتج"} إلى السلة">
-              🛒 أضف إلى السلة
-            </button>
-          </div>
-        `;
-        container.appendChild(card);
-      });
+      mediaContent = `<iframe width="100%" height="200" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
     }
+    else if (url.toLowerCase().endsWith(".mp4") || url.includes("drive.google.com/uc?export=view&id=")) {
+      mediaContent = `
+        <video class="product-video" autoplay loop muted playsinline width="100%" height="200px" preload="metadata" style="cursor:pointer;">
+          <source src="${url}" type="video/mp4">
+          متصفحك لا يدعم عرض الفيديو.
+        </video>
+      `;
+    }
+    else if (url.match(/\.(jpeg|jpg|gif|png|webp)$/i)) {
+      mediaContent = `<img src="${url}" alt="${item["الاسم"] || ""}" loading="lazy" />`;
+    }
+    else {
+      mediaContent = `<div style="height:200px; display:flex; align-items:center; justify-content:center; background:#eee; color:#999;">لا توجد صورة</div>`;
+    }
+    let badge = "";
+    if(item["شارة"] && item["شارة"].trim() !== "") {
+      badge = `<span class="badge">${item["شارة"]}</span>`;
+    }
+    card.innerHTML = `
+      ${badge}
+      ${mediaContent}
+      <div class="product-info">
+        <h2>${item["الاسم"] || "منتج بدون اسم"}</h2>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <p class="price" style="margin:0;">
+            ${item["السعر"] === "هدية" ? '🎁 <b style="color:#d81b60;">هدية مجانية!</b>' : item["السعر"] || ""}
+          </p>
+          <button class="spec-btn" onclick="toggleDesc(this)" style="background:#fff0f6;border:1.5px solid #d81b60;color:#d81b60;padding:5px 12px;border-radius:12px;cursor:pointer;font-size:0.97em;font-weight:bold;">مواصفات المنتج</button>
+        </div>
+        <div class="desc" style="display:none;margin-top:8px;color:#555;background:#fce4ec;padding:10px;border-radius:10px;">
+          ${item["الوصف"] || "لا توجد مواصفات."}
+        </div>
+        <button class="order-btn" onclick="addToCart({name: '${(item["الاسم"] || "").replace(/'/g, "\\'")}', price: '${(item["السعر"] || "").replace(/'/g, "\\'")}'})" aria-label="أضف ${item["الاسم"] || "منتج"} إلى السلة">
+          🛒 أضف إلى السلة
+        </button>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
 
     // --- تحميل المنتجات من الشيت وبناء الأقسام ديناميكياً ---
     fetch("https://opensheet.vercel.app/1GBEvznLdxcXqAHimMliEIBE2faqDJO4OFt8buWGD3y8/Sheet1")
