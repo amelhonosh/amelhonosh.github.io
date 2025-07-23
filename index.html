@@ -415,7 +415,7 @@ body {
   pointer-events: none;
 }
 
-@media (max-width: 100px) {
+@media (max-width: 600px) {
   .bottom-nav {
     height: 58px;
     border-radius: 12px 12px 0 0;
@@ -430,7 +430,7 @@ body {
   * {
      box-sizing: border-box;
    }
-     @media (max-width: 100px) {
+     @media (max-width: 600px) {
      .search-bar, .your-element {
        width: 100%;
        margin: 0 auto;
@@ -461,7 +461,12 @@ body {
   align-items: center;
   justify-content: center;
 }
-
+@media (max-width:600px) {
+  .search-bar .icon {
+    font-size: 1.3em;
+    margin-right: 5px;
+  }
+}
 .search-bar input[type="text"] {
   width: 100%;
   font-size: 1.1em;
@@ -483,7 +488,7 @@ body {
    onsubmit="event.preventDefault(); searchProducts();">
   <input type="text" id="searchInput" placeholder="ابحث عن منتج أو قسم..." oninput="searchProducts()">
   <button type="submit" class="icon">
-  <i class="fa fa-search"></i>
+  <i class="fa-solid fa-search"></i>
   </button>
 </form>
   <div class="promo-media" id="promoMedia">
