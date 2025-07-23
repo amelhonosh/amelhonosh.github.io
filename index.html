@@ -188,19 +188,19 @@
       font-weight: bold;
     }
     .social {
-      width: 100%;
+      position: fixed; 
+	  bottom: 0; 
+	  width: 100%; 
+	  background: #f5f5f5; 
+	  display: flex; 
+	  justify-content: space-around; 
+	  align-items: center; 
+	  z-index: 1000; 
+	  box-shadow: 0 -2px 8px #0001; 
+	  font-size: 1.1em;
       text-align: center;
       padding: 10px 0;
-      background: #f5f5f5;
-      position: fixed;
-      bottom: 0;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
       left: 0;
-      z-index: 1000;
-      box-shadow: 0 -2px 8px #0001;
-      font-size: 1.1em;
     }
     .social a {
       margin: 0 8px;
@@ -209,7 +209,34 @@
       font-size: 1em;
       font-weight: bold;
       transition: color 0.2s;
+	  background: #d81b60; 
+	  border: none; 
+	  border-radius: 18px; 
+	  padding: 8px 18px; 
+	  cursor: pointer; 
+	  position: relative; 
     }
+	social-menu-list
+	{ 
+	display: none; 
+	position: absolute; 
+	bottom: 50px; 
+	left: 0; 
+	right: 0; 
+	margin: auto; 
+	background: #fff; 
+	border-radius: 12px 12px 0 0; 
+	box-shadow: 0 -2px 12px #0002; 
+	padding: 10px 0; width: 170px; 
+	text-align: center; 
+	z-index: 2000; 
+	animation: slideUp 0.3s;
+	}
+	.social-menu-list a { display: block; padding: 10px 0; color: #d81b60; text-decoration: none; font-weight: bold;
+ border-bottom: 1px solid #eee; transition: background 0.2s; }
+.social-menu-list a:last-child { border-bottom: none; }
+.social-menu-list a:hover { background: #f8bbd0; }
+@keyframes slideUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     .social a:hover {
       color: #d81b60;
     }
@@ -234,10 +261,7 @@
       box-shadow: 0 0 10px #0003;
       font-size: 1em;
     }
-    /* الهامبرغر يظهر فقط على الشاشات الصغيرة */
-    @media (min-width: 700px) {
-      #hamburgerMenu { display: none; }
-    }
+  
   </style>
 </head>
 <body>
@@ -298,16 +322,15 @@
 
 <!-- الشريط السفلي مع زر السلة والعداد -->
 <div class="social">
-  <a href="https://wa.me/9647818004585" target="_blank">💬 واتساب</a>
-  <a href="https://www.instagram.com/ali_honosh" target="_blank">📸 إنستغرام</a>
-  <a href="https://www.facebook.com/share/16UEZy9EHd/" target="_blank">📘 فيسبوك</a>
-  <span>|</span>
-  <a href="https://maps.app.goo.gl/Du52raCa55HjmACX8" target="_blank">📍الفرع الأول</a>
-  <a href="https://maps.app.goo.gl/Du52raCa55HjmACX8" target="_blank">📍الفرع الثاني</a>
-  <a href="#" onclick="showModal('contact');return false;">📞 اتصل بنا</a>
-  <a href="#" onclick="showModal('about');return false;">ℹ️ من نحن</a>
+  <!-- ... أزرار أخرى ... -->
+  <button id="moreMenuBtn" class="social-main-btn">المزيد</button>
+  <div id="moreMenuList" class="social-menu-list">
+    <a href="https://maps.app.goo.gl/Du52raCa55HjmACX8" target="_blank">🌍 موقعنا</a>
+    <a href="#" onclick="showModal('contact');return false;">📞 اتصل بنا</a>
+    <a href="#" onclick="showModal('about');return false;">ℹ️ من نحن</a>
+  </div>
   <a href="#" onclick="showCart();return false;">
-    🛒 السلة <span id="cartCountFooter" style="background:#d81b60;color:#fff;border-radius:50%;padding:2px 8px;font-size:0.9em;">0</span>
+    🛒 <span id="cartCountFooter" style="background:#d81b60;color:#fff;border-radius:50%;padding:2px 8px;font-size:1.1em;">0</span>
   </a>
 </div>
 
@@ -325,7 +348,13 @@
   </div>
   <div id="sidebarContent" style="padding:0 18px 18px 0;"></div>
 </div>
-
+  <div id="locationModal" class="modal" style="display:none;">
+  <div class="modal-content" style="max-width:400px;">
+    <span onclick="closeModal('locationModal')" style="float:left;cursor:pointer;font-size:1.5em;color:#d81b60;">&times;</span>
+	<p><a href="https://maps.app.goo.gl/Du52raCa55HjmACX8" target="_blank">📍 موقع الفرع الأول على خرائط كوكل</a></p>
+    <p><a href="https://maps.app.goo.gl/Du52raCa55HjmACX8" target="_blank">📍موقع الفرع الثاني على خرائط كوكل</a></p>
+   </div>
+</div>
 <!-- مودال اتصل بنا -->
 <div id="contactModal" class="modal" style="display:none;">
   <div class="modal-content" style="max-width:400px;">
@@ -338,6 +367,9 @@
     <p>أركان📞 رقم الهاتف: <a href="tel:07818004585" style="color:#ad1457;">07818004585</a></p>
     <p>💬 واتساب: <a href="https://wa.me/9647818004585" target="_blank" style="color:#ad1457;">اضغط هنا</a></p>
     <p>💄 كل جديد في عالم التجميل والعناية متوفر لدينا، مع 🚚 توصيل لجميع محافظات العراق.</p>
+	<a href="https://wa.me/9647818004585" target="_blank">💬 واتساب</a>
+    <a href="https://www.instagram.com/ali_honosh" target="_blank">📸 إنستغرام</a>
+    <a href="https://www.facebook.com/share/16UEZy9EHd/" target="_blank">📘 فيسبوك</a>
   </div>
 </div>
 
@@ -383,6 +415,8 @@
 function showModal(id) {
   if(id === 'contact') id = 'contactModal';
   if(id === 'about') id = 'aboutModal';
+  if(id === 'location') id = 'locationModal';
+
   document.getElementById(id).style.display = "flex";
 }
 function closeModal(id) {
@@ -829,6 +863,20 @@ function selectSidebarSub(cat, sub) {
         btn.textContent = "مواصفات المنتج";
       }
     }
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var btn = document.getElementById('moreMenuBtn');
+  var menu = document.getElementById('moreMenuList');
+  btn.onclick = function(e) {
+    e.stopPropagation();
+    menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+  };
+  document.addEventListener('click', function(e) {
+    if(menu.style.display === 'block') menu.style.display = 'none';
+  });
+  menu.onclick = function(e) { e.stopPropagation(); };
+});
 </script>
 </body>
 </html>
