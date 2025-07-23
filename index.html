@@ -5,8 +5,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Cosmetic Ali Hinosh</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
  <style>
+ *,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* يمنع ظهور شريط تمرير أفقي */
+}
      body { 
 	 font-family: 'Cairo', 
 	 sans-serif; 
@@ -125,11 +136,14 @@
 	  gap: 8px; 
 	  padding: 0 2vw 30px 2vw;
 	  }
-      .main-header {
-	  padding: 10px 0 5px 0;
-	  max-width: 700px;
-	  margin: 0 auto; 
-	  }
+     .main-header {
+  max-width: 700px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px 0 10px 0;
+  background: #fff;
+  text-align: center;
+}
       .modal-content {
 	  padding: 15px 5px 10px 5px; 
 	  max-width: 98vw;
@@ -423,24 +437,28 @@
    }
 .search-bar {
   width: 100%;
-  max-width:100%;
+  max-width: 100%;
   display: flex;
   align-items: center;
-  margin: 0 auto ;
-   background: #fff;
+  margin: 0 auto 15px auto;
+  background: #fff;
   border-radius: 10px;
   box-shadow: 0 2px 8px #d81b6011;
   padding: 0 8px;
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 .search-bar .icon {
-  margin-right: -35px;
   background: none;
   border: none;
   font-size: 1.4em;
   color: #d81b60;
   cursor: pointer;
+  margin-right: 8px;
+  margin-left: 0;
   z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .search-bar input[type="text"] {
@@ -460,9 +478,12 @@
 
 <div class="main-header">
   <div class="logo">Cosmetic Ali Hinosh</div>
-   <form class="search-bar" onsubmit="event.preventDefault(); searchProducts();">
+   <form class="search-bar" 
+   onsubmit="event.preventDefault(); searchProducts();">
   <input type="text" id="searchInput" placeholder="ابحث عن منتج أو قسم..." oninput="searchProducts()">
-  <button type="submit" class="icon"><i class="fa fa-search"></i></button>
+  <button type="submit" class="icon">
+  <i class="fa fa-search"></i>
+  </button>
 </form>
   <div class="promo-media" id="promoMedia">
     <video src="https://www.w3schools.com/html/mov_bbb.mp4" autoplay loop muted playsinline></video>
