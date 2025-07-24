@@ -128,20 +128,13 @@ body {
       .categories { gap:7px;
 	  }
       .category-btn {
-	 width: 140x;
-     height: 140px;
+	 width: 80x;
+     height: 80px;
      border-radius: 50%;
      object-fit: cover;
      margin-bottom: 5px;
 	 }
-	 .category-btn img {
-	 width: 120px !important;
-	 height: 120px !important;
-	 max-width: none !important;
-	 max-height: none !important;
-     min-width: 0 !important;
-     min-height: 0 !important;
-	 }
+	
       .dropdown-content {
 	  min-width: 100px; 
 	  padding: 7px 5px; 
@@ -803,7 +796,7 @@ function renderCategories() {
     cats.innerHTML += `
       <div class="category-btn${cat.name === selectedCategory ? ' selected' : ''}" 
         onclick="toggleDropdown(${idx})" title="${cat.name}">
-        <img src="${cat.icon}" alt="${cat.name}" style="width:70px;height:70px;border-radius:50%;object-fit:cover;margin-bottom:0px;">
+        <img src="${cat.icon}" alt="${cat.name}" style="width:50px;height:50px;border-radius:50%;object-fit:cover;margin-bottom:0px;">
 	    <span class="category-label" style="font-size:0.95em;">${cat.name}</span>
       </div>
     `;
