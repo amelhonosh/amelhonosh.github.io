@@ -43,7 +43,7 @@ body {
 	}
     .category-btn { 
   background: #fff;
-  border: 4px solid #d81b60;   /* إطار أعرض */
+  border: 2px solid #d81b60;   /* إطار أعرض */
   border-radius: 50%;           /* دائري */
   width: 85px;                 /* أكبر من الصورة */
   height:85px;
@@ -796,7 +796,7 @@ function renderCategories() {
     cats.innerHTML += `
       <div class="category-btn${cat.name === selectedCategory ? ' selected' : ''}" 
         onclick="toggleDropdown(${idx})" title="${cat.name}">
-        <img src="${cat.icon}" alt="${cat.name}" style="width:50px;height:50px;border-radius:50%;object-fit:cover;margin-bottom:0px;">
+        <img src="${cat.icon}" alt="${cat.name}" style="width:75px;height:75px;border-radius:50%;object-fit:cover;margin-bottom:0px;">
 	    <span class="category-label" style="font-size:0.95em;">${cat.name}</span>
       </div>
     `;
