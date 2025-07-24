@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -7,7 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
   <style>
-  *,
+   *,
 *::before,
 *::after {
   box-sizing: border-box;
@@ -549,14 +550,16 @@ body {
 </head>
 <body>
 
+
 <div class="main-header">
   <div class="logo">Cosmetic Ali Hinosh</div>
-  <form class="search-bar" onsubmit="event.preventDefault(); searchProducts();">
-    <input type="text" id="searchInput" placeholder="ابحث عن منتج أو قسم..." oninput="searchProducts()">
-    <button type="submit" class="icon">
-      <i class="fa-solid fa-search"></i>
-    </button>
-  </form>
+   <form class="search-bar" 
+   onsubmit="event.preventDefault(); searchProducts();">
+  <input type="text" id="searchInput" placeholder="ابحث عن منتج أو قسم..." oninput="searchProducts()">
+  <button type="submit" class="icon">
+  <i class="fa-solid fa-search"></i>
+  </button>
+</form>
   <div class="promo-media" id="promoMedia">
     <video src="https://www.w3schools.com/html/mov_bbb.mp4" autoplay loop muted playsinline></video>
   </div>
@@ -566,14 +569,45 @@ body {
 
 <div class="products" id="product-list"></div>
 
+
+<!-- مودال السلة -->
+<div class="modal" id="cartModal" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
+  <div class="modal-content">
+    <div id="cartHeader">
+      <span style="font-size:1.2em;font-weight:bold;">🛒 سلة المشتريات</span>
+      <button id="clearCartBtn" onclick="clearCart()" aria-label="تفريغ السلة">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path d="M3 6h18" stroke="#a0003a" stroke-width="2" stroke-linecap="round"/>
+          <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke="#a0003a" stroke-width="2"/>
+          <rect x="5" y="6" width="14" height="14" rx="2" stroke="#a0003a" stroke-width="2"/>
+          <path d="M10 11v5M14 11v5" stroke="#a0003a" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+    <ul id="cartItems" style="padding-right:0;list-style:none;margin:0;"></ul>
+    <div id="cartSummary"></div>
+    <hr>
+    <input type="text" id="custName" placeholder="الاسم" aria-label="الاسم" />
+    <input type="text" id="custAddress" placeholder="العنوان" aria-label="العنوان" />
+    <input type="text" id="custPhone" placeholder="رقم الهاتف" aria-label="رقم الهاتف" />
+    <input type="text" id="custLocation" placeholder="رابط اللوكيشن (اختياري)" aria-label="رابط اللوكيشن (اختياري)" />
+    <div style="color:#c2185b; font-size:0.95em; margin-bottom:8px;">
+      📍 يمكنك إرسال رابط اللوكيشن من خرائط Google أو واتساب هنا، أو إرساله لاحقًا.
+    </div>
+    <button onclick="submitCartOrder()" aria-label="إرسال الطلب عبر واتساب">إرسال الطلب عبر واتساب</button>
+  </div>
+</div>
+<div class="toast" id="toast" role="alert" aria-live="assertive" aria-atomic="true">✅ تم إرسال الطلب إلى واتساب</div>
+
 <!-- الشريط السفلي مع زر السلة والعداد -->
 <div class="bottom-nav">
   <button class="nav-btn active" id="homeBtn" onclick="activateNav(this); goHome();">
     <span class="nav-icon">🏠</span>
     <span class="nav-label">الرئيسية</span>
   </button>
-  <button class="nav-btn" id="appsBtn">
+  <button class="nav-btn" id="appsBtn" onclick="activateNav(this); openSidebar();">
     <span class="nav-icon">
+      <!-- أيقونة مربعات أربعة SVG -->
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="2" fill="currentColor"/><rect x="14" y="3" width="7" height="7" rx="2" fill="currentColor"/><rect x="3" y="14" width="7" height="7" rx="2" fill="currentColor"/><rect x="14" y="14" width="7" height="7" rx="2" fill="currentColor"/></svg>
     </span>
     <span class="nav-label">التطبيقات</span>
@@ -583,12 +617,13 @@ body {
     <span class="nav-label">السلة</span>
     <span id="cartCountFooter" class="cart-badge">0</span>
   </button>
-  <button class="nav-btn" id="aboutBtn" onclick="activateNav(this); showModal('aboutMenu');">
-    <span class="nav-icon">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect y="4" width="24" height="3" rx="1.5" fill="currentColor"/><rect y="10.5" width="24" height="3" rx="1.5" fill="currentColor"/><rect y="17" width="24" height="3" rx="1.5" fill="currentColor"/></svg>
-    </span>
-    <span class="nav-label">علي حنوش</span>
-  </button>
+ <button class="nav-btn" id="aboutBtn" onclick="activateNav(this); showModal('aboutMenu');">
+  <span class="nav-icon">
+    <!-- أيقونة برجر SVG -->
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect y="4" width="24" height="3" rx="1.5" fill="currentColor"/><rect y="10.5" width="24" height="3" rx="1.5" fill="currentColor"/><rect y="17" width="24" height="3" rx="1.5" fill="currentColor"/></svg>
+  </span>
+  <span class="nav-label">علي حنوش</span>
+</button>
 </div>
 
 <div class="info-footer">
@@ -605,7 +640,7 @@ body {
   </div>
   <div id="sidebarContent" style="padding:0 18px 18px 0;"></div>
 </div>
- <div id="locationModal" class="modal" style="display:none;">
+  <div id="locationModal" class="modal" style="display:none;">
   <div class="modal-content" style="max-width:400px;">
     <span onclick="closeModal('locationModal')" style="float:left;cursor:pointer;font-size:1.5em;color:#d81b60;">&times;</span>
 	<p><a href="https://maps.app.goo.gl/Du52raCa55HjmACX8" target="_blank">📍 موقع الفرع الأول على خرائط كوكل</a></p>
@@ -675,6 +710,7 @@ body {
   </div>
 </div>
 
+	
 <script>
 let sidebarOpen = false;
 let sidebarSelectedCat = null;
@@ -722,7 +758,6 @@ window.addEventListener('popstate', function(e){
   if (sidebarOpen) closeSidebar();
 });
 
-// رسم الأقسام الجانبية
 function renderSidebarCategories() {
   let html = '';
   if (typeof CATEGORIES === "undefined" || !CATEGORIES.length) {
@@ -731,7 +766,7 @@ function renderSidebarCategories() {
     CATEGORIES.forEach((cat, idx) => {
       html += `<div style="padding:10px 0;border-bottom:1px solid #eee;cursor:pointer;font-weight:bold;color:${sidebarSelectedCat===cat.name?'#d81b60':'#222'}"
            onclick="toggleSidebarSub(${idx})">
-           <img src="${cat.icon}" alt="${cat.name}" style="width:28px;height:28px;border-radius:50%;vertical-align:middle;margin-left:7px;">
+       <img src="${cat.icon}" alt="${cat.name}" style="width:28px;height:28px;border-radius:50%;vertical-align:middle;margin-left:7px;">
            ${cat.name}
       </div>
       `;
@@ -797,7 +832,7 @@ function renderCategories() {
       <div class="category-btn${cat.name === selectedCategory ? ' selected' : ''}" 
         onclick="toggleDropdown(${idx})" title="${cat.name}">
         <img src="${cat.icon}" alt="${cat.name}" style="width:100px;height:100px;border-radius:50%;object-fit:cover;margin-bottom:5px;">
-	    <span class="category-label" style="font-size:0.95em;">${cat.name}</span>
+        <span class="category-label" style="font-size:0.95em;">${cat.name}</span>
       </div>
     `;
   });
@@ -1002,13 +1037,13 @@ function toggleDesc(btn) {
 </script>
 <script>
 // تفعيل الزر وتغيير اللون
-  function activateNav(btn) {
+function activateNav(btn) {
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
 }
 
 // زر الصفحة الرئيسية
-  function goHome() {
+function goHome() {
   // إذا كنتِ في صفحة واحدة فقط:
   window.scrollTo({top: 0, behavior: 'smooth'});
   // إذا كان لديكِ SPA أو صفحات متعددة، استخدمي:
