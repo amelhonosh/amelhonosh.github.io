@@ -548,6 +548,7 @@ body {
   </style>
 </head>
 <body>
+<div id="page-important">
 
 <div class="main-header">
   <div class="logo">Cosmetic Ali Hinosh</div>
@@ -674,7 +675,183 @@ body {
     "الحل الذي تحتاجه بشرتك... قبل أن تصرخي طلباً للمساعدة"</p>
   </div>
 </div>
+</div>
+<div id="page-subcategories" style="display:none;">
+ <button onclick="showPage('page-important')">⬅ رجوع للرئيسية</button> 
+<img id="icon" class="icon-img" src="" alt="أيقونة القسم">
+<h1 id="title">جاري التحميل...</h1>
 
+<div class="search-bar">
+  <input type="text" id="searchInput" placeholder="ابحث ضمن هذا القسم..." oninput="filterSubcategories()" />
+</div>
+
+<div id="subcategories">جاري تحميل الأقسام الفرعية...</div>
+<div id="noResult" class="message" style="display:none;"></div>
+
+<!-- الشريط السفلي -->
+<div class="bottom-nav">
+  <button class="nav-btn active" onclick="location.href='important.html'">
+    <span class="nav-icon">🏠</span>
+    <span class="nav-label">الرئيسية</span>
+  </button>
+  <button class="nav-btn" onclick="alert('التطبيقات متاحة قريبًا')">
+    <span class="nav-icon">🧩</span>
+    <span class="nav-label">التطبيقات</span>
+  </button>
+  <button class="nav-btn" onclick="alert('السلة متاحة لاحقًا')">
+    <span class="nav-icon">🛒</span>
+    <span class="nav-label">السلة</span>
+    <span id="cartCountFooter" class="cart-badge">0</span>
+  </button>
+  <button class="nav-btn" onclick="alert('معلومات علي حنوش')">
+    <span class="nav-icon">📋</span>
+    <span class="nav-label">علي حنوش</span>
+  </button>
+</div>
+
+<script>
+// روابط الأيقونات
+const CATEGORY_ICONS = {
+  "عطور": "https://i.ibb.co/ZRs58NBc/photo-2025-07-23-22-32-41.jpg",
+  "عناية بالوجه": "https://i.ibb.co/996Nq75S/photo-2025-07-23-22-32-53.jpg",
+  "عناية بالجسم واليدين": "https://i.ibb.co/d0F0fVSJ/photo-2025-07-23-22-32-48.jpg",
+  "عناية بالشعر": "https://i.ibb.co/G4mWD3mq/photo-2025-07-23-22-32-59.jpg",
+  "عناية شخصيه": "https://i.ibb.co/FLPwQKnn/photo-2025-07-23-22-33-05.jpg",
+  "مكياج وتجميل": "https://i.ibb.co/JRYrdPnq/photo-2025-07-23-22-33-10.jpg"
+};
+
+const urlParams = new URLSearchParams(window.location.search);
+const category = urlParams.get('category') || '';
+
+document.getElementById("title").textContent = `الأقسام الفرعية - ${category}`;
+document.getElementById("icon").src = CATEGORY_ICONS[category] || "https://i.ibb.co/ZRs58NBc/photo-2025-07-23-22-32-41.jpg";
+
+let allSubcategories = [];
+
+fetch("https://opensheet.vercel.app/1GBEvznLdxcXqAHimMliEIBE2faqDJO4OFt8buWGD3y8/Sheet1")
+  .then(res => res.json())
+  .then(data => {
+    const subs = new Set();
+    data.forEach(item => {
+      if (item["القسم"]?.trim() === category && item["القسم الفرعي"]) {
+        subs.add(item["القسم الفرعي"].trim());
+      }
+    });
+
+    allSubcategories = Array.from(subs);
+    showSubcategories(allSubcategories);
+  });
+
+function showSubcategories(list) {
+  const container = document.getElementById("subcategories");
+  container.innerHTML = "";
+
+  if (list.length === 0) {
+    handleNoResults();
+    return;
+  }
+
+  document.getElementById("noResult").style.display = "none";
+
+  list.forEach(sub => {
+    const div = document.createElement("div");
+    div.className = "subcategory";
+    div.textContent = sub;
+    div.onclick = () => {
+openProducts(category, sub);
+    };
+    container.appendChild(div);
+  });
+}
+
+function filterSubcategories() {
+  const keyword = document.getElementById("searchInput").value.trim().toLowerCase();
+  const filtered = allSubcategories.filter(sub => sub.toLowerCase().includes(keyword));
+  showSubcategories(filtered);
+
+  if (filtered.length === 0) {
+    handleNoResults();
+  }
+}
+
+function handleNoResults() {
+  document.getElementById("subcategories").innerHTML = "";
+  const msgDiv = document.getElementById("noResult");
+  msgDiv.innerHTML = `
+    لا توجد نتائج للبحث.<br>
+    أنت الآن في قسم "<b>${category}</b>".
+    <br><br>
+    سيتم الرجوع إلى الصفحة الرئيسية خلال <span id="countdown" class="countdown">5</span> ثوانٍ.
+    <br>
+    <button class="back-btn" onclick="location.href='important.html'">العودة يدويًا الآن</button>
+  `;
+  msgDiv.style.display = "block";
+
+  let count = 5;
+  const interval = setInterval(() => {
+    count--;
+    document.getElementById("countdown").textContent = count;
+    if (count === 0) {
+      clearInterval(interval);
+      window.location.href = "important.html";
+    }
+  }, 1000);
+}
+</script>
+</div>
+
+<div id="page-products" style="display:none;">
+<button onclick="showPage('page-subcategories')">⬅ رجوع للأقسام</button>
+
+<h1 id="pageTitle">المنتجات</h1>
+
+<div class="search-bar">
+  <input type="text" id="searchInput" placeholder="ابحث عن منتج..." oninput="filterProducts()" />
+</div>
+
+<div id="productsContainer">جاري تحميل المنتجات...</div>
+
+<!-- الشريط السفلي -->
+<div class="bottom-nav">
+  <button class="nav-btn active" onclick="location.href='important.html'">
+    <span class="nav-icon">🏠</span>
+    <span class="nav-label">الرئيسية</span>
+  </button>
+  <button class="nav-btn" onclick="alert('التطبيقات متاحة قريبًا')">
+    <span class="nav-icon">🧩</span>
+    <span class="nav-label">التطبيقات</span>
+  </button>
+  <button class="nav-btn" onclick="alert('السلة متاحة لاحقًا')">
+    <span class="nav-icon">🛒</span>
+    <span class="nav-label">السلة</span>
+    <span id="cartCountFooter" class="cart-badge">0</span>
+  </button>
+  <button class="nav-btn" onclick="alert('معلومات علي حنوش')">
+    <span class="nav-icon">📋</span>
+    <span class="nav-label">علي حنوش</span>
+  </button>
+</div>
+
+<script>
+const urlParams = new URLSearchParams(window.location.search);
+const category = urlParams.get("category") || "";
+const subcategory = urlParams.get("subcategory") || "";
+
+document.getElementById("pageTitle").textContent = `منتجات ${subcategory}`;
+
+let allProducts = [];
+
+fetch("https://opensheet.vercel.app/1GBEvznLdxcXqAHimMliEIBE2faqDJO4OFt8buWGD3y8/Sheet1")
+  .then(res => res.json())
+  .then(data => {
+    allProducts = data.filter(p =>
+      p["القسم"]?.trim() === category &&
+      p["القسم الفرعي"]?.trim() === subcategory
+    );
+    showProducts(allProducts);
+  });
+</script>
+</div>
 <script>
 let sidebarOpen = false;
 let sidebarSelectedCat = null;
@@ -795,14 +972,25 @@ function renderCategories() {
   CATEGORIES.forEach((cat, idx) => {
     cats.innerHTML += `
       <div class="category-btn${cat.name === selectedCategory ? ' selected' : ''}" 
-        onclick="toggleDropdown(${idx})" title="${cat.name}">
+        onclick="openSubcategories('${cat.name}')"
+		title="${cat.name}">
         <img src="${cat.icon}" alt="${cat.name}" style="width:75px;height:75px;border-radius:50%;object-fit:cover;margin-bottom:0px;">
 	    <span class="category-label" style="font-size:0.95em;">${cat.name}</span>
       </div>
     `;
   });
 }
-
+function openSubcategories(category) {
+  selectedCategory = category;
+  showPage('page-subcategories'); 
+  renderSubcategories(category);  // سنضيفها من subcategories.html
+}
+function openProducts(category, sub) {
+  selectedCategory = category;
+  selectedSubcategory = sub;
+  showPage('page-products');
+  renderProducts();  // سننسخها من المنتجات.html
+}
 // رسم قائمة الأقسام الفرعية
 function renderDropdown(idx) {
   const dropdown = document.getElementById("dropdown");
@@ -1088,13 +1276,6 @@ function addToCart(product) {
   showToastMsg("تمت إضافة المنتج إلى السلة!");
 }
 
-function updateCartCount() {
-  let totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
-  document.getElementById("cartCount").textContent = totalQty;
-  var footerCount = document.getElementById("cartCountFooter");
-  if(footerCount) footerCount.textContent = totalQty;
-}
-
 function showCart() {
   if (cart.length === 0) {
     alert("السلة فارغة.");
@@ -1229,6 +1410,12 @@ document.getElementById("showCartBtn").onclick = showCart;
 document.addEventListener("DOMContentLoaded", () => {
   updateCartCount();
 });
+function showPage(pageId) {
+  document.getElementById('page-important').style.display = 'none';
+  document.getElementById('page-subcategories').style.display = 'none';
+  document.getElementById('page-products').style.display = 'none';
+  document.getElementById(pageId).style.display = 'block';
+}
 </script>
 
 <button id="showCartBtn" style="display:none;">
