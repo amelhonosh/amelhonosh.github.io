@@ -17,7 +17,7 @@ body {
   padding: 0;
   overflow-x: hidden; /* يمنع ظهور شريط تمرير أفقي */
 }
- box-sizing: border-box.
+ box-sizing: border-box;
      body { 
 	 font-family: 'Cairo', 
 	 sans-serif; 
@@ -677,7 +677,7 @@ body {
 </div>
 </div>
 <div id="page-subcategories" style="display:none;">
- <button onclick="showPage('page-important')">⬅ رجوع للرئيسية</button> 
+<button class="back-btn" onclick="showPage('page-important')">
 <img id="icon" class="icon-img" src="" alt="أيقونة القسم">
 <h1 id="title">جاري التحميل...</h1>
 
@@ -690,7 +690,7 @@ body {
 
 <!-- الشريط السفلي -->
 <div class="bottom-nav">
-  <button class="nav-btn active" onclick="location.href='important.html'">
+<button class="nav-btn active" onclick="showPage('page-important')">
     <span class="nav-icon">🏠</span>
     <span class="nav-label">الرئيسية</span>
   </button>
@@ -742,6 +742,21 @@ fetch("https://opensheet.vercel.app/1GBEvznLdxcXqAHimMliEIBE2faqDJO4OFt8buWGD3y8
     showSubcategories(allSubcategories);
   });
 
+// رسم الأقسام الرئيسية
+function renderCategories() {
+  const cats = document.getElementById("categories");
+  cats.innerHTML = "";
+  CATEGORIES.forEach((cat, idx) => {
+    cats.innerHTML += `
+      <div class="category-btn${cat.name === selectedCategory ? ' selected' : ''}" 
+        onclick="openSubcategories('${cat.name}')"
+		title="${cat.name}">
+        <img src="${cat.icon}" alt="${cat.name}" style="width:75px;height:75px;border-radius:50%;object-fit:cover;margin-bottom:0px;">
+	    <span class="category-label" style="font-size:0.95em;">${cat.name}</span>
+      </div>
+    `;
+  });
+}
 function showSubcategories(list) {
   const container = document.getElementById("subcategories");
   container.innerHTML = "";
@@ -783,7 +798,7 @@ function handleNoResults() {
     <br><br>
     سيتم الرجوع إلى الصفحة الرئيسية خلال <span id="countdown" class="countdown">5</span> ثوانٍ.
     <br>
-    <button class="back-btn" onclick="location.href='important.html'">العودة يدويًا الآن</button>
+<button class="back-btn" onclick="showPage('page-important')">العودة يدويًا الآن</button>
   `;
   msgDiv.style.display = "block";
 
@@ -793,7 +808,7 @@ function handleNoResults() {
     document.getElementById("countdown").textContent = count;
     if (count === 0) {
       clearInterval(interval);
-      window.location.href = "important.html";
+showPage('page-important');
     }
   }, 1000);
 }
@@ -813,7 +828,8 @@ function handleNoResults() {
 
 <!-- الشريط السفلي -->
 <div class="bottom-nav">
-  <button class="nav-btn active" onclick="location.href='important.html'">
+  <button class="nav-btn active" onclick="showPage('page-important')">
+
     <span class="nav-icon">🏠</span>
     <span class="nav-label">الرئيسية</span>
   </button>
@@ -833,8 +849,7 @@ function handleNoResults() {
 </div>
 
 <script>
-const urlParams = new URLSearchParams(window.location.search);
-const category = urlParams.get("category") || "";
+
 const subcategory = urlParams.get("subcategory") || "";
 
 document.getElementById("pageTitle").textContent = `منتجات ${subcategory}`;
@@ -965,19 +980,77 @@ const CATEGORY_ICONS = {
   "معطرات جو": "https://i.ibb.co/XfQ0pK8t/photo-2025-07-23-23-50-24.jpg"
 };
 
-// رسم الأقسام الرئيسية
-function renderCategories() {
-  const cats = document.getElementById("categories");
-  cats.innerHTML = "";
-  CATEGORIES.forEach((cat, idx) => {
-    cats.innerHTML += `
-      <div class="category-btn${cat.name === selectedCategory ? ' selected' : ''}" 
-        onclick="openSubcategories('${cat.name}')"
-		title="${cat.name}">
-        <img src="${cat.icon}" alt="${cat.name}" style="width:75px;height:75px;border-radius:50%;object-fit:cover;margin-bottom:0px;">
-	    <span class="category-label" style="font-size:0.95em;">${cat.name}</span>
+// رسم المنتجات
+function renderProducts(filteredList) {
+  const container = document.getElementById("product-list");
+  let filtered = filteredList || ALL_PRODUCTS;
+
+  // فلترة حسب القسم أو القسم الفرعي إذا كانت محددة
+  if (selectedCategory) {
+    filtered = filtered.filter(p => (p["القسم"] || "").trim() === selectedCategory.trim());
+  }
+  if (selectedSubcategory) {
+    filtered = filtered.filter(p => (p["القسم الفرعي"] || "").trim() === selectedSubcategory.trim());
+  }
+
+  container.innerHTML = "";
+  if (filtered.length === 0) {
+    container.innerHTML = "<div style='text-align:center;color:#d81b60;font-size:1.2em;'>لا توجد منتجات مطابقة</div>";
+    return;
+  }
+  filtered.forEach(item => {
+    const card = document.createElement("div");
+    card.className = "product";
+    let url = item["الصورة"] ? item["الصورة"].trim() : "";
+    url = getDirectImageUrl(url);
+    let mediaContent = "";
+    if (url.includes("youtube.com") || url.includes("youtu.be")) {
+      let videoId = "";
+      if (url.includes("v=")) {
+        videoId = url.split("v=")[1].split("&")[0];
+      } else if (url.includes("youtu.be/")) {
+        videoId = url.split("youtu.be/")[1].split("?")[0];
+      }
+      mediaContent = `<iframe width="100%" height="200" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+    }
+    else if (url.toLowerCase().endsWith(".mp4") || url.includes("drive.google.com/uc?export=view&id=")) {
+      mediaContent = `
+        <video class="product-video" autoplay loop muted playsinline width="100%" height="200px" preload="metadata" style="cursor:pointer;">
+          <source src="${url}" type="video/mp4">
+          متصفحك لا يدعم عرض الفيديو.
+        </video>
+      `;
+    }
+    else if (url.match(/\.(jpeg|jpg|gif|png|webp)$/i)) {
+      mediaContent = `<img src="${url}" alt="${item["الاسم"] || ""}" loading="lazy" />`;
+    }
+    else {
+      mediaContent = `<div style="height:200px; display:flex; align-items:center; justify-content:center; background:#eee; color:#999;">لا توجد صورة</div>`;
+    }
+    let badge = "";
+    if(item["شارة"] && item["شارة"].trim() !== "") {
+      badge = `<span class="badge">${item["شارة"]}</span>`;
+    }
+    card.innerHTML = `
+      ${badge}
+      ${mediaContent}
+      <div class="product-info">
+        <h2 class="product-title">${item["الاسم"] || "منتج بدون اسم"}</h2>
+        <div class="product-price">
+          ${item["السعر"] === "هدية" ? '🎁 <b style="color:#d81b60;">هدية مجانية!</b>' : item["السعر"] || ""}
+        </div>
+        <div class="product-actions">
+          <button class="spec-btn" onclick="toggleDesc(this)">مواصفات المنتج</button>
+          <button class="spec-btn order-btn" onclick="addToCart({name: '${(item["الاسم"] || "").replace(/'/g, "\\'")}', price: '${(item["السعر"] || "").replace(/'/g, "\\'")}'})" aria-label="أضف ${item["الاسم"] || "منتج"} إلى السلة">
+            🛒 أضف إلى السلة
+          </button>
+        </div>
+        <div class="desc" style="display:none;margin-top:8px;color:#555;background:#fce4ec;padding:10px;border-radius:10px;">
+          ${item["الوصف"] || "لا توجد مواصفات."}
+        </div>
       </div>
     `;
+    container.appendChild(card);
   });
 }
 function openSubcategories(category) {
@@ -1072,86 +1145,17 @@ function getDirectImageUrl(url) {
   return url;
 }
 
-// رسم المنتجات
-function renderProducts(filteredList) {
-  const container = document.getElementById("product-list");
-  let filtered = filteredList || ALL_PRODUCTS;
-
-  // فلترة حسب القسم أو القسم الفرعي إذا كانت محددة
-  if (selectedCategory) {
-    filtered = filtered.filter(p => (p["القسم"] || "").trim() === selectedCategory.trim());
-  }
-  if (selectedSubcategory) {
-    filtered = filtered.filter(p => (p["القسم الفرعي"] || "").trim() === selectedSubcategory.trim());
-  }
-
-  container.innerHTML = "";
-  if (filtered.length === 0) {
-    container.innerHTML = "<div style='text-align:center;color:#d81b60;font-size:1.2em;'>لا توجد منتجات مطابقة</div>";
-    return;
-  }
-  filtered.forEach(item => {
-    const card = document.createElement("div");
-    card.className = "product";
-    let url = item["الصورة"] ? item["الصورة"].trim() : "";
-    url = getDirectImageUrl(url);
-    let mediaContent = "";
-    if (url.includes("youtube.com") || url.includes("youtu.be")) {
-      let videoId = "";
-      if (url.includes("v=")) {
-        videoId = url.split("v=")[1].split("&")[0];
-      } else if (url.includes("youtu.be/")) {
-        videoId = url.split("youtu.be/")[1].split("?")[0];
-      }
-      mediaContent = `<iframe width="100%" height="200" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
-    }
-    else if (url.toLowerCase().endsWith(".mp4") || url.includes("drive.google.com/uc?export=view&id=")) {
-      mediaContent = `
-        <video class="product-video" autoplay loop muted playsinline width="100%" height="200px" preload="metadata" style="cursor:pointer;">
-          <source src="${url}" type="video/mp4">
-          متصفحك لا يدعم عرض الفيديو.
-        </video>
-      `;
-    }
-    else if (url.match(/\.(jpeg|jpg|gif|png|webp)$/i)) {
-      mediaContent = `<img src="${url}" alt="${item["الاسم"] || ""}" loading="lazy" />`;
-    }
-    else {
-      mediaContent = `<div style="height:200px; display:flex; align-items:center; justify-content:center; background:#eee; color:#999;">لا توجد صورة</div>`;
-    }
-    let badge = "";
-    if(item["شارة"] && item["شارة"].trim() !== "") {
-      badge = `<span class="badge">${item["شارة"]}</span>`;
-    }
-    card.innerHTML = `
-      ${badge}
-      ${mediaContent}
-      <div class="product-info">
-        <h2 class="product-title">${item["الاسم"] || "منتج بدون اسم"}</h2>
-        <div class="product-price">
-          ${item["السعر"] === "هدية" ? '🎁 <b style="color:#d81b60;">هدية مجانية!</b>' : item["السعر"] || ""}
-        </div>
-        <div class="product-actions">
-          <button class="spec-btn" onclick="toggleDesc(this)">مواصفات المنتج</button>
-          <button class="spec-btn order-btn" onclick="addToCart({name: '${(item["الاسم"] || "").replace(/'/g, "\\'")}', price: '${(item["السعر"] || "").replace(/'/g, "\\'")}'})" aria-label="أضف ${item["الاسم"] || "منتج"} إلى السلة">
-            🛒 أضف إلى السلة
-          </button>
-        </div>
-        <div class="desc" style="display:none;margin-top:8px;color:#555;background:#fce4ec;padding:10px;border-radius:10px;">
-          ${item["الوصف"] || "لا توجد مواصفات."}
-        </div>
-      </div>
-    `;
-    container.appendChild(card);
-  });
-}
 
 // تحميل المنتجات من الشيت وبناء الأقسام ديناميكياً
 fetch("https://opensheet.vercel.app/1GBEvznLdxcXqAHimMliEIBE2faqDJO4OFt8buWGD3y8/Sheet1")
+console.log("CATEGORIES:", CATEGORIES);
+console.log("ALL_PRODUCTS:", ALL_PRODUCTS);
   .then(res => res.json())
   .then(data => {
+    console.log("بيانات الشيت:", data); // للتأكد أن البيانات وصلت
     ALL_PRODUCTS = data;
-    // بناء الأقسام الرئيسية والفرعية ديناميكياً
+
+    // بناء الأقسام
     let cats = {};
     data.forEach(item => {
       let cat = (item["القسم"] || "").trim();
@@ -1160,18 +1164,21 @@ fetch("https://opensheet.vercel.app/1GBEvznLdxcXqAHimMliEIBE2faqDJO4OFt8buWGD3y8
       if (!cats[cat]) cats[cat] = new Set();
       if (sub) cats[cat].add(sub);
     });
-    // تحويلها إلى مصفوفة مناسبة
+
     CATEGORIES = Object.keys(cats).map(cat => ({
       name: cat,
       icon: CATEGORY_ICONS[cat] || "https://i.ibb.co/ZRs58NBc/photo-2025-07-23-22-32-41.jpg",
       subs: Array.from(cats[cat])
     }));
-    renderCategories();
+
+    renderCategories();  // بعد تحميل البيانات
     renderDropdown(null);
     renderProducts();
-  });
+  })
+  .catch(err => console.error("خطأ في جلب البيانات:", err));
 
 document.addEventListener("DOMContentLoaded", function() {
+  showPage('page-important');  // تأكد من إظهار الصفحة الرئيسية
   renderCategories();
   renderDropdown(null);
 });
@@ -1415,6 +1422,11 @@ function showPage(pageId) {
   document.getElementById('page-subcategories').style.display = 'none';
   document.getElementById('page-products').style.display = 'none';
   document.getElementById(pageId).style.display = 'block';
+   if (pageId === 'page-important') {
+    renderCategories();
+    renderDropdown(null);
+    renderProducts();
+  }
 }
 </script>
 
