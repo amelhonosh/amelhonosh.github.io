@@ -1148,8 +1148,6 @@ function getDirectImageUrl(url) {
 
 // تحميل المنتجات من الشيت وبناء الأقسام ديناميكياً
 fetch("https://opensheet.vercel.app/1GBEvznLdxcXqAHimMliEIBE2faqDJO4OFt8buWGD3y8/Sheet1")
-console.log("CATEGORIES:", CATEGORIES);
-console.log("ALL_PRODUCTS:", ALL_PRODUCTS);
   .then(res => res.json())
   .then(data => {
     console.log("بيانات الشيت:", data); // للتأكد أن البيانات وصلت
@@ -1259,7 +1257,6 @@ function closeModal(id) {
 
 <!-- رسالة منبثقة (Toast) -->
 <div id="toast" class="toast"></div>
-```
 <script>
 // --- السلة ---
 let cart = [];
