@@ -857,20 +857,20 @@ input[type="text"]:focus {
 }
 
 #health-banner .banner-title {
-  color: #43a047;              /* أخضر صحي */
-  font-size: 0.9em;            /* مطابق لحجم نص أزرار الأقسام */
-  line-height: 1.2;            /* تباعد ضيق */
-  margin-bottom: 6px;
+  color: #43a047;
+  font-size: 0.9em;
+  line-height: 1;
+  margin: 0;          /* إزالة أي هوامش داخلية */
   font-weight: bold;
 }
 
 #health-banner .banner-btn {
-  background: #43a047;         /* أخضر */
+  background: #d81b60;
   color: #fff;
   border: none;
   padding: 6px 14px;
   font-size: 0.9em;
-  border-radius: 12px;
+  border-radius: 5px;
   cursor: pointer;
   transition: background 0.2s;
 }
@@ -986,23 +986,9 @@ input[type="text"]:focus {
   width:100%;
 }
 </style>
-<div id="health-banner" style="background:#fff; color:#000; padding:12px 16px; border-radius:8px; margin:20px 10px 10px 10px; text-align:center;">
-  <div style="font-size:0.8em; font-weight:bold; margin-bottom:6px;">
-    💡 صحتك سر إشراقتك
-  </div>
-  <div style="font-size:0.95em; margin-bottom:12px;">
-   💡
-  </div>
-  <button onclick="window.open('https://forms.gle/...', '_blank');"
-          style="background-color:#d81b60;
-                 color:#fff;
-                 border:none;
-                 padding:8px 18px;
-                 font-size:0.95em;
-                 border-radius:5px;
-                 cursor:pointer;">  <!-- هنا أضفنا المسافة -->
-    🧪 ابدئي الآن
-  </button>
+<div id="health-banner">
+  <span class="banner-title">💡 صحتك سر رشاقتك</span>
+  <button class="banner-btn">🧪 ابدئي الآن</button>
 </div>
 <div class="products" id="product-list"></div>
 <div class="info-footer">
@@ -2115,6 +2101,7 @@ window.addEventListener('load', () => {
       slider.scrollTo({ left: 0, behavior: 'smooth' });
     }
   }, 1000);
+    }, 500);
 });
 </script>
 
