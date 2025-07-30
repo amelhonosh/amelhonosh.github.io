@@ -750,7 +750,6 @@ input[type="text"]:focus {
 </button>
 </form>
 <button id="backBtn" style="display:none;position:fixed;top:16px;left:16px;z-index:11000;background:#fff0f6;color:#d81b60;border:1.2px solid #d81b60;border-radius:18px;font-size:1em;padding:7px 16px;cursor:pointer;box-shadow:0 2px 10px #d81b6012;">⬅ رجوع</button>
-
 <div class="dropdown" id="dropdown"></div>
 </div>
 <style>
@@ -808,93 +807,6 @@ input[type="text"]:focus {
   right: 10px;
 }
 </style>
-<div class="custom-carousel">
-<div class="arrow left" onclick="changeSlide(-1)">❮</div>
-<div class="arrow right" onclick="changeSlide(1)">❯</div>
-<div class="carousel-track">
-<div class="carousel-slide">
-<img src="https://i.ibb.co/ZRs58NBc/photo-2025-07-23-22-32-41.jpg"/>
-</div>
-<div class="carousel-slide">
-<img src="https://i.ibb.co/ZRs58NBc/photo-2025-07-23-22-32-41.jpg"/>
-</div>
-<div class="carousel-slide">
-<img src="https://i.ibb.co/ZRs58NBc/photo-2025-07-23-22-32-41.jpg"/>
-</div>
-<div class="carousel-slide">
-<img src="https://i.ibb.co/ZRs58NBc/photo-2025-07-23-22-32-41.jpg"/>
-</div>
-<div class="carousel-slide">
-<img src="https://i.ibb.co/ZRs58NBc/photo-2025-07-23-22-32-41.jpg"/>
-</div>
-</div>
-<div class="carousel-dots">
-<span class="dot active" onclick="moveToSlide(0)"></span><span class="dot" onclick="moveToSlide(1)"></span><span class="dot" onclick="moveToSlide(2)"></span><span class="dot" onclick="moveToSlide(3)"></span><span class="dot" onclick="moveToSlide(4)"></span>
-</div>
-</div>
-<script>
-let currentSlide = 0;
-const slides = document.querySelectorAll('.carousel-slide');
-const track = document.querySelector('.carousel-track');
-const dots = document.querySelectorAll('.dot');
-
-function updateCarousel() {
-  track.style.transform = 'translateX(-' + (100 * currentSlide) + '%)';
-  dots.forEach((dot, idx) => {
-    dot.classList.toggle('active', idx === currentSlide);
-  });
-}
-
-function moveToSlide(index) {
-  currentSlide = index;
-  updateCarousel();
-}
-
-function changeSlide(direction) {
-  currentSlide += direction;
-  if (currentSlide < 0) currentSlide = slides.length - 1;
-  if (currentSlide >= slides.length) currentSlide = 0;
-  updateCarousel();
-}
-</script>
-
-<div class="custom-carousel" style="position: relative; overflow: hidden; max-width: 100%; margin: 20px auto;">
-<div class="carousel-track" style="display: flex; transition: transform 0.5s ease;">
-<div class="carousel-slide" style="min-width: 100%; box-sizing: border-box;">
-<img src="https://i.ibb.co/ZRs58NBc/photo-2025-07-23-22-32-41.jpg" style="width: 100%; height: auto; display: block;"/>
-</div>
-<div class="carousel-slide" style="min-width: 100%; box-sizing: border-box;">
-<img src="https://i.ibb.co/ZRs58NBc/photo-2025-07-23-22-32-41.jpg" style="width: 100%; height: auto; display: block;"/>
-</div>
-<div class="carousel-slide" style="min-width: 100%; box-sizing: border-box;">
-<img src="https://i.ibb.co/ZRs58NBc/photo-2025-07-23-22-32-41.jpg" style="width: 100%; height: auto; display: block;"/>
-</div>
-<div class="carousel-slide" style="min-width: 100%; box-sizing: border-box;">
-<img src="https://i.ibb.co/ZRs58NBc/photo-2025-07-23-22-32-41.jpg" style="width: 100%; height: auto; display: block;"/>
-</div>
-<div class="carousel-slide" style="min-width: 100%; box-sizing: border-box;">
-<img src="https://i.ibb.co/ZRs58NBc/photo-2025-07-23-22-32-41.jpg" style="width: 100%; height: auto; display: block;"/>
-</div>
-</div>
-<div class="carousel-dots" style="text-align: center; margin-top: 10px;">
-<span class="dot" onclick="moveToSlide(0)" style="height: 12px; width: 12px; margin: 0 4px; background-color: #bbb; border-radius: 50%; display: inline-block; cursor: pointer;"></span>
-<span class="dot" onclick="moveToSlide(1)" style="height: 12px; width: 12px; margin: 0 4px; background-color: #bbb; border-radius: 50%; display: inline-block; cursor: pointer;"></span>
-<span class="dot" onclick="moveToSlide(2)" style="height: 12px; width: 12px; margin: 0 4px; background-color: #bbb; border-radius: 50%; display: inline-block; cursor: pointer;"></span>
-<span class="dot" onclick="moveToSlide(3)" style="height: 12px; width: 12px; margin: 0 4px; background-color: #bbb; border-radius: 50%; display: inline-block; cursor: pointer;"></span>
-<span class="dot" onclick="moveToSlide(4)" style="height: 12px; width: 12px; margin: 0 4px; background-color: #bbb; border-radius: 50%; display: inline-block; cursor: pointer;"></span>
-</div>
-</div>
-<script>
-let currentSlide = 0;
-function moveToSlide(slideIndex) {
-  const track = document.querySelector('.carousel-track');
-  const dots = document.querySelectorAll('.dot');
-  currentSlide = slideIndex;
-  track.style.transform = 'translateX(-' + (100 * slideIndex) + '%)';
-  dots.forEach(dot => dot.style.backgroundColor = '#bbb');
-  dots[slideIndex].style.backgroundColor = '#333';
-}
-</script>
 <div id="image-carousel" style="position:relative;width:100%;max-width:100%;overflow:hidden;border-radius:8px;margin:20px 10px 10px 10px;box-shadow:0 2px 6px rgba(0,0,0,0.1);">
 <div id="carousel-inner" style="display:flex;transition:transform 0.5s ease;width:100%;">
 <img class="carousel-img" onclick="filterByMainCategory(0)" src="https://i.ibb.co/ZRs58NBc/photo-2025-07-23-22-32-41.jpg"/>
@@ -905,7 +817,10 @@ function moveToSlide(slideIndex) {
 </div>
 <button onclick="prevImage()" style="position:absolute;top:50%;left:10px;transform:translateY(-50%);font-size:2em;background:none;border:none;color:#d81b60;cursor:pointer;">❮</button>
 <button onclick="nextImage()" style="position:absolute;top:50%;right:10px;transform:translateY(-50%);font-size:2em;background:none;border:none;color:#d81b60;cursor:pointer;">❯</button>
-</div><div class="categories" id="categories"></div><div class="promo-media" id="promoMedia">
+</div>
+<div id="carousel-dots" style="text-align:center;margin-top:10px;">
+</div>
+<div class="categories" id="categories"></div><div class="promo-media" id="promoMedia">
 </div>
 <style>
 .carousel-img {
@@ -1890,6 +1805,47 @@ function renderFilteredProducts(filteredList) {
   }
   document.getElementById('product-list').innerHTML = html;
 }
+</script>
+
+<script>
+let currentImage = 0;
+const images = document.querySelectorAll('#carousel-inner img');
+const totalImages = images.length;
+
+function updateCarousel() {
+  const carouselInner = document.getElementById('carousel-inner');
+  if (!carouselInner) return;
+  carouselInner.style.transform = `translateX(-${currentImage * 100}%)`;
+
+  const dots = document.querySelectorAll('#carousel-dots span');
+  dots.forEach((dot, index) => {
+    dot.style.opacity = index === currentImage ? '1' : '0.4';
+  });
+}
+
+function nextImage() {
+  currentImage = (currentImage + 1) % totalImages;
+  updateCarousel();
+}
+
+function prevImage() {
+  currentImage = (currentImage - 1 + totalImages) % totalImages;
+  updateCarousel();
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  const dotsContainer = document.getElementById('carousel-dots');
+  for (let i = 0; i < totalImages; i++) {
+    const dot = document.createElement('span');
+    dot.style.cssText = 'display:inline-block;width:10px;height:10px;margin:0 5px;border-radius:50%;background:#d81b60;opacity:0.4;cursor:pointer;';
+    dot.addEventListener('click', function() {
+      currentImage = i;
+      updateCarousel();
+    });
+    dotsContainer.appendChild(dot);
+  }
+  updateCarousel();
+});
 </script>
 </body>
 </html>
