@@ -986,9 +986,24 @@ input[type="text"]:focus {
   width:100%;
 }
 </style>
-<div id="health-banner">
-  <div class="banner-title">       ✨ صحتك سر إشراقتك       <button class="banner-btn" onclick="window.open('https://forms.gle/H7VShuJz1aGbaGS37','_blank')">
-    🧪 ابدئي الاختبار</button></div>
+<div id="health-banner" style="background:#fff; color:#000; padding:12px 16px; border-radius:8px; margin:20px 10px 10px 10px; text-align:center;">
+  <div style="font-size:1em; font-weight:bold; margin-bottom:6px;">
+    💡 صحتك سر إشراقتك
+  </div>
+  <div style="font-size:0.95em; margin-bottom:12px;">
+    أجيبي على اختبار بسيط وسنقترح عليكِ الحلول والمنتجات المناسبة بناءً على حالتك.
+  </div>
+  <button onclick="window.open('https://forms.gle/...', '_blank');"
+          style="background-color:#d81b60;
+                 color:#fff;
+                 border:none;
+                 padding:8px 18px;
+                 font-size:0.95em;
+                 border-radius:5px;
+                 cursor:pointer;
+                 margin-top:24px;">  <!-- هنا أضفنا المسافة -->
+    🧪 ابدئي الآن
+  </button>
 </div>
 <div class="products" id="product-list"></div>
 <div class="info-footer">
