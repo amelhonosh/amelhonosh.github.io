@@ -878,10 +878,10 @@ input[type="text"]:focus {
 </span>
 <span class="nav-label">علي حنوش</span>
 </button>
-<div class="about-dropdown" id="aboutDropdown">
-<button onclick="showModal('about'); closeAboutDropdown();">من نحن</button>
-<button onclick="showModal('contact'); closeAboutDropdown();">اتصل بنا</button>
-<button onclick="showModal('location'); closeAboutDropdown();">مواقع الفروع</button>
+<div class="about-dropdown" id="aboutDropdown" style="position: absolute; bottom: 60px; right: 10px; background: white; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); z-index: 1000; padding: 8px 10px; width: 160px; font-size: 14px;">
+<button onclick="showModal('about'); closeAboutDropdown();" style="display: block; width: 100%; margin: 4px 0; background-color: #fff0f5; border: none; padding: 6px 10px; border-radius: 6px; font-size: 14px; text-align: right; color: #d81b60;">من نحن</button>
+<button onclick="showModal('contact'); closeAboutDropdown();" style="display: block; width: 100%; margin: 4px 0; background-color: #fff0f5; border: none; padding: 6px 10px; border-radius: 6px; font-size: 14px; text-align: right; color: #d81b60;">اتصل بنا</button>
+<button onclick="showModal('location'); closeAboutDropdown();" style="display: block; width: 100%; margin: 4px 0; background-color: #fff0f5; border: none; padding: 6px 10px; border-radius: 6px; font-size: 14px; text-align: right; color: #d81b60;">مواقع الفروع</button>
 </div>
 <!-- القائمة الجانبية (sidebar) -->
 <div id="sidebar" style="display:none;position:fixed;top:0;left:0;width:0;height:100vh;background:#fff;box-shadow:2px 0 12px #0002;z-index:12000;overflow-x:hidden;transition:0.3s;">
