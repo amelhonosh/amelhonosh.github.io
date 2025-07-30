@@ -825,6 +825,7 @@ input[type="text"]:focus {
 }
 .cat-slider {
   display: flex;
+  flex-wrap: nowrap;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
@@ -840,7 +841,7 @@ input[type="text"]:focus {
 
 /* إخفاء شريط التمرير الافتراضي */
 .cat-slider::-webkit-scrollbar { display: none; }
-.cat-slider { -ms-overflow-style: none; scrollbar-width: none;  display: flex;
+.cat-slider { -ms-overflow-style: none; scrollbar-width: none;
   overflow-x: auto !important;         /* للتأكد من تمكين التمرير */
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
