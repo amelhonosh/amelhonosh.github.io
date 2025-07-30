@@ -848,6 +848,35 @@ input[type="text"]:focus {
   padding: 0 10px;
   flex-wrap: nowrap !important;        /* لا تسمحي بالالتفاف */
   justify-content: flex-start !important; /* رصّ من اليسار */}
+  #health-banner {
+  background: #fff;            /* خلفية بيضاء */
+  text-align: center;
+  padding: 10px 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+#health-banner .banner-title {
+  color: #43a047;              /* أخضر صحي */
+  font-size: 0.9em;            /* مطابق لحجم نص أزرار الأقسام */
+  line-height: 1.2;            /* تباعد ضيق */
+  margin-bottom: 6px;
+  font-weight: bold;
+}
+
+#health-banner .banner-btn {
+  background: #43a047;         /* أخضر */
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  font-size: 0.9em;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#health-banner .banner-btn:hover {
+  background: #388e3c;         /* أخضر أغمق عند المرور */
+}
   </style>
 </head>
 <body><div class="logo">
@@ -956,13 +985,12 @@ input[type="text"]:focus {
   width:100%;
 }
 </style>
-<div id="health-banner" style="background:#fff;color:#000;padding:12px 16px;border-radius:8px;margin:20px 10px 10px 10px;font-family:'Cairo',sans-serif;box-shadow:0 2px 6px rgba(0,0,0,0.1);text-align:center;">
-<div style="font-size:1em;font-weight:bold;margin-bottom:6px;">
-    💡 هل تعانين من مشاكل البشرة أو الشعر؟
-  </div>
-<div style="font-size:0.95em;margin-bottom:12px;">
-    أجيبي على اختبار بسيط وسنقترح عليكِ الحلول والمنتجات المناسبة بناءً على حالتك، بعد مراجعة خبرائنا المتخصصين.
-  </div>
+<div id="health-banner">
+  <div class="banner-title">✨ صحتك سر إشراقتك</div>
+  <button class="banner-btn" onclick="window.open('https://forms.gle/H7VShuJz1aGbaGS37','_blank')">
+    🧪 ابدئي الاختبار
+  </button>
+</div>
 <button onclick="window.open('https://forms.gle/H7VShuJz1aGbaGS37', '_blank');" style="background-color:#d81b60;color:#fff;border:none;padding:8px 18px;font-size:0.95em;border-radius:5px;cursor:pointer;">
     🧪 ابدئي الآن
   </button>
