@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html dir="rtl" lang="ar">
 <head>
 <meta charset="utf-8"/>
@@ -6,8 +7,7 @@
 <title>Cosmetic Ali Hinosh</title>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&amp;display=swap" rel="stylesheet"/>
 <style>
  *,
 *::before,
@@ -1019,6 +1019,43 @@ input[type="text"]:focus {
 .banner-btn:hover {
   background: #388e3c;
 }
+.carousel-img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.prev-btn, .next-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 2em;
+  color: #d81b60;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.prev-btn { left: 10px; }
+.next-btn { right: 10px; }
+
+.carousel-dots {
+  text-align: center;
+  margin-top: 10px;
+}
+.dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin: 4px;
+  background-color: #bbb;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.dot.active {
+  background-color: #d81b60;
+}
 #carousel-inner {
   display: flex;
   width: 100%;
@@ -1032,8 +1069,7 @@ input[type="text"]:focus {
 
 .carousel-slide {
   flex: 0 0 100%;
-max-width: 100%;
-  position: relative;
+box-sizing: border-box;
 }
 
 
@@ -1125,190 +1161,228 @@ max-width: 100%;
 </button>
 </form>
 <button id="backBtn">
-  <i class="fa fa-arrow-left"></i>
+<i class="fa fa-arrow-left"></i>
 </button>
-
 <div class="dropdown" id="dropdown"></div>
 </div>
-<div id="image-carousel">
-  <div id="carousel-inner">
-    <div class="carousel-slide">
-      <div style="position: relative;">
-        <img class="carousel-img" onclick="filterByMainCategory('جديد')" src="https://i.ibb.co/0jvpymn1/image.jpg"/>
-        <div class="slide-label no-bg-label">"أنتِ أجمل مع جديدنا – اكتشفي لمستك القادمة!"</div>
-      </div>
-    </div>
-    <div class="carousel-slide">
-      <div style="position: relative;">
-        <img class="carousel-img" onclick="filterByMainCategory('منتجات طبية')" src="https://i.ibb.co/9HRTGK8S/image.jpg"/>
-        <div class="slide-label no-bg-label">🛡️ "عناية طبية ... جمالك يستحق الأفضل!"</div>
-      </div>
-    </div>
-    <div class="carousel-slide">
-      <div style="position: relative;">
-        <img class="carousel-img" onclick="filterByMainCategory('مقاوم للماء')" src="https://i.ibb.co/tT6zwm3h/image.jpg"/>
-        <div class="slide-label no-bg-label">💧 "ثبات يدوم... مقاومة للماء، مقاومة لكل شيء!"</div>
-      </div>
-    </div>
-    
-    <div class="carousel-slide">
-      <div style="position: relative;">
-        <img class="carousel-img" onclick="filterByMainCategory('عضوي')" src="https://i.ibb.co/Rp3FR2bD/image.jpg"/>
-        <div class="slide-label no-bg-label">🌿 "جمالك طبيعي… مثل مكوناتنا🌱من الطبيعة... إليكِ مباشرة."</div>
-      </div>
-	  </div>
+<div id="image-carousel" style="overflow:hidden; position:relative; width:100%;">
+<div id="carousel-inner" style="display:flex; width:800%; transition:transform 0.5s ease;">
+<div class="carousel-slide" style="min-width:100%; box-sizing:border-box;"><img class="carousel-img" src="https://i.ibb.co/0jvpymn1/image.jpg"/><div class="slide-label">جديد</div></div>
+<div class="carousel-slide" style="min-width:100%; box-sizing:border-box;"><img class="carousel-img" src="https://i.ibb.co/9HRTGK8S/image.jpg"/><div class="slide-label">طبية</div></div>
+<div class="carousel-slide" style="min-width:100%; box-sizing:border-box;"><img class="carousel-img" src="https://i.ibb.co/tT6zwm3h/image.jpg"/><div class="slide-label">مقاوم</div></div>
+<div class="carousel-slide" style="min-width:100%; box-sizing:border-box;"><img class="carousel-img" src="https://i.ibb.co/Rp3FR2bD/image.jpg"/><div class="slide-label">عضوي</div></div>
+<div class="carousel-slide" style="min-width:100%; box-sizing:border-box;"><img class="carousel-img" src="https://i.ibb.co/bgjTVhQh/image.jpg"/><div class="slide-label">إصدار</div></div>
+<div class="carousel-slide" style="min-width:100%; box-sizing:border-box;"><img class="carousel-img" src="https://i.ibb.co/PZXkD2TL/image.jpg"/><div class="slide-label">روتين</div></div>
+<div class="carousel-slide" style="min-width:100%; box-sizing:border-box;"><img class="carousel-img" src="https://i.ibb.co/7xdjqVCq/image.jpg"/><div class="slide-label">عرض خاص</div></div>
+<div class="carousel-slide" style="min-width:100%; box-sizing:border-box;"><img class="carousel-img" src="https://i.ibb.co/q3TJ1bLj/khonash-bg-1000x300.png"/><div class="slide-label">الأكثر مبيعا</div></div>
+</div>
+<button class="prev-btn" onclick="prevImage()">❮</button>
+<button class="next-btn" onclick="nextImage()">❯</button>
+</div>
+<div class="carousel-dots" id="carousel-dots"></div>
+<script>
+let currentSlide = 0;
 
-    <div class="carousel-slide">
-      <div style="position: relative;">
-        <img class="carousel-img" onclick="filterByMainCategory('اصدار محدود')" src="https://i.ibb.co/bgjTVhQh/image.jpg"/>
-        <div class="slide-label no-bg-label">✨ ⏳ "إصدار محدود... الجمال لا ينتظر!"</div>
-      </div>
-	  </div>
+function showSlide(index) {
+  const slides = document.querySelectorAll(".carousel-slide");
+  const track = document.getElementById("carousel-inner");
+  const dots = document.querySelectorAll(".dot");
 
-    <div class="carousel-slide">
-      <div style="position: relative;">
-        <img class="carousel-img" onclick="filterByMainCategory('روتين')" src="https://i.ibb.co/PZXkD2TL/image.jpg"/>
-        <div class="slide-label no-bg-label"> ✨ "روتينك الجمالي يبدأ من هنا... سر التألق كل يوم!"</div>
-      </div>
-	  </div>
+  currentSlide = (index + slides.length) % slides.length;
+  track.style.transform = `translateX(-${currentSlide * 100}%)`;
 
-    <div class="carousel-slide">
-      <div style="position: relative;">
-        <img class="carousel-img" onclick="filterByMainCategory('عرض خاص')" src="https://i.ibb.co/7xdjqVCq/image.jpg"/>
-        <div class="slide-label no-bg-label">"لاتفوتينها ... عروضنا الخاصة ... جمال بسعر ذهبي!"🎉</div>
-      </div>
-    </div>
-	   <div class="carousel-slide">
-      <div style="position: relative;">
-        <img class="carousel-img" onclick="filterByMainCategory('الاكثر مبيعا')" src="https://i.ibb.co/q3TJ1bLj/khonash-bg-1000x300.png"/>
-        <div class="slide-label no-bg-label">🔥 "الكل يحبها... الأكثر مبيعًا تستحق التجربة!"</div>
-      </div>
-	  </div>
-  </div>
+  dots.forEach(dot => dot.classList.remove("active"));
+  if (dots[currentSlide]) dots[currentSlide].classList.add("active");
+}
 
-  <button class="prev-btn" onclick="prevImage()">❮</button>
-  <button class="next-btn" onclick="nextImage()">❯</button>
+function nextImage() {
+  showSlide(currentSlide + 1);
+}
+function prevImage() {
+  showSlide(currentSlide - 1);
+}
+
+function createDots() {
+  const dotContainer = document.getElementById("carousel-dots");
+  const slides = document.querySelectorAll(".carousel-slide");
+  dotContainer.innerHTML = "";
+  slides.forEach((_, i) => {
+    const dot = document.createElement("span");
+    dot.className = "dot" + (i === 0 ? " active" : "");
+    dot.onclick = () => showSlide(i);
+    dotContainer.appendChild(dot);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  createDots();
+  showSlide(0);
+});
+</script>
+
+<div class="carousel-slide">
+<div style="position: relative;">
+<img class="carousel-img" onclick="filterByMainCategory('منتجات طبية')" src="https://i.ibb.co/9HRTGK8S/image.jpg">
+<div class="slide-label no-bg-label">🛡️ "عناية طبية ... جمالك يستحق الأفضل!"</div>
+</img></div>
+</div>
+<div class="carousel-slide">
+<div style="position: relative;">
+<img class="carousel-img" onclick="filterByMainCategory('مقاوم للماء')" src="https://i.ibb.co/tT6zwm3h/image.jpg">
+<div class="slide-label no-bg-label">💧 "ثبات يدوم... مقاومة للماء، مقاومة لكل شيء!"</div>
+</img></div>
+</div>
+<div class="carousel-slide">
+<div style="position: relative;">
+<img class="carousel-img" onclick="filterByMainCategory('عضوي')" src="https://i.ibb.co/Rp3FR2bD/image.jpg">
+<div class="slide-label no-bg-label">🌿 "جمالك طبيعي… مثل مكوناتنا🌱من الطبيعة... إليكِ مباشرة."</div>
+</img></div>
+</div>
+<div class="carousel-slide">
+<div style="position: relative;">
+<img class="carousel-img" onclick="filterByMainCategory('اصدار محدود')" src="https://i.ibb.co/bgjTVhQh/image.jpg">
+<div class="slide-label no-bg-label">✨ ⏳ "إصدار محدود... الجمال لا ينتظر!"</div>
+</img></div>
+</div>
+<div class="carousel-slide">
+<div style="position: relative;">
+<img class="carousel-img" onclick="filterByMainCategory('روتين')" src="https://i.ibb.co/PZXkD2TL/image.jpg">
+<div class="slide-label no-bg-label"> ✨ "روتينك الجمالي يبدأ من هنا... سر التألق كل يوم!"</div>
+</img></div>
+</div>
+<div class="carousel-slide">
+<div style="position: relative;">
+<img class="carousel-img" onclick="filterByMainCategory('عرض خاص')" src="https://i.ibb.co/7xdjqVCq/image.jpg">
+<div class="slide-label no-bg-label">"لاتفوتينها ... عروضنا الخاصة ... جمال بسعر ذهبي!"🎉</div>
+</img></div>
+</div>
+<div class="carousel-slide">
+<div style="position: relative;">
+<img class="carousel-img" onclick="filterByMainCategory('الاكثر مبيعا')" src="https://i.ibb.co/q3TJ1bLj/khonash-bg-1000x300.png">
+<div class="slide-label no-bg-label">🔥 "الكل يحبها... الأكثر مبيعًا تستحق التجربة!"</div>
+</img></div>
 </div>
 
+<button class="prev-btn" onclick="prevImage()">❮</button>
+<button class="next-btn" onclick="nextImage()">❯</button>
 
 <div class="categories cat-slider" id="categories">
 <div class="category-btn">
-  <span class="icon-with-pattern">
-    <i class="fa fa-perfume"></i>
-  </span>
-  <span class="category-text">الاكثر مبيعا</span>
+<span class="icon-with-pattern">
+<i class="fa fa-perfume"></i>
+</span>
+<span class="category-text">الاكثر مبيعا</span>
 </div>
 <div class="category-btn">
-  <span class="icon-with-pattern">
-    <i class="fa fa-perfume"></i>
-  </span>
-  <span class="category-text">عرض خاص</span>
+<span class="icon-with-pattern">
+<i class="fa fa-perfume"></i>
+</span>
+<span class="category-text">عرض خاص</span>
 </div>
 <div class="category-btn">
-  <span class="icon-with-pattern">
-    <i class="fa fa-perfume"></i>
-  </span>
-  <span class="category-text">مقاوم للماء</span>
+<span class="icon-with-pattern">
+<i class="fa fa-perfume"></i>
+</span>
+<span class="category-text">مقاوم للماء</span>
 </div>
 <div class="category-btn">
-  <span class="icon-with-pattern">
-    <i class="fa fa-perfume"></i>
-  </span>
-  <span class="category-text">جديد</span>
+<span class="icon-with-pattern">
+<i class="fa fa-perfume"></i>
+</span>
+<span class="category-text">جديد</span>
 </div>
 <div class="category-btn">
-  <span class="icon-with-pattern">
-    <i class="fa fa-perfume"></i>
-  </span>
-  <span class="category-text">اصدار محدود</span>
+<span class="icon-with-pattern">
+<i class="fa fa-perfume"></i>
+</span>
+<span class="category-text">اصدار محدود</span>
 </div>
 <div class="category-btn">
-  <span class="icon-with-pattern">
-    <i class="fa fa-perfume"></i>
-  </span>
-  <span class="category-text">منتجات طبية</span>
+<span class="icon-with-pattern">
+<i class="fa fa-perfume"></i>
+</span>
+<span class="category-text">منتجات طبية</span>
 </div>
 <div class="category-btn">
-  <span class="icon-with-pattern">
-    <i class="fa fa-perfume"></i>
-  </span>
-  <span class="category-text">روتين</span>
+<span class="icon-with-pattern">
+<i class="fa fa-perfume"></i>
+</span>
+<span class="category-text">روتين</span>
 </div>
 <div class="category-btn">
-  <span class="icon-with-pattern">
-    <i class="fa fa-perfume"></i>
-  </span>
-  <span class="category-text">عناية بالوجه</span>
+<span class="icon-with-pattern">
+<i class="fa fa-perfume"></i>
+</span>
+<span class="category-text">عناية بالوجه</span>
 </div>
 <div class="category-btn">
-  <span class="icon-with-pattern">
-    <i class="fa fa-perfume"></i>
-  </span>
-  <span class="category-text">عناية بالشعر</span>
+<span class="icon-with-pattern">
+<i class="fa fa-perfume"></i>
+</span>
+<span class="category-text">عناية بالشعر</span>
 </div>
 <div class="category-btn">
-  <span class="icon-with-pattern">
-    <i class="fa fa-perfume"></i>
-  </span>
-  <span class="category-text">عطر</span>
+<span class="icon-with-pattern">
+<i class="fa fa-perfume"></i>
+</span>
+<span class="category-text">عطر</span>
 </div>
 <div class="category-btn">
-  <span class="icon-with-pattern">
-    <i class="fa fa-perfume"></i>
-  </span>
-  <span class="category-text">عناية بالجسم واليدين</span>
+<span class="icon-with-pattern">
+<i class="fa fa-perfume"></i>
+</span>
+<span class="category-text">عناية بالجسم واليدين</span>
 </div>
 <div class="category-btn">
-  <span class="icon-with-pattern">
-    <i class="fa fa-perfume"></i>
-  </span>
-  <span class="category-text">عطور</span>
+<span class="icon-with-pattern">
+<i class="fa fa-perfume"></i>
+</span>
+<span class="category-text">عطور</span>
 </div>
 <div class="category-btn">
-  <span class="icon-with-pattern">
-    <i class="fa fa-perfume"></i>
-  </span>
-  <span class="category-text">مزيل شعر</span>
+<span class="icon-with-pattern">
+<i class="fa fa-perfume"></i>
+</span>
+<span class="category-text">مزيل شعر</span>
 </div>
 <div class="category-btn">
-  <span class="icon-with-pattern">
-    <i class="fa fa-perfume"></i>
-  </span>
-  <span class="category-text">معطرات جو</span>
+<span class="icon-with-pattern">
+<i class="fa fa-perfume"></i>
+</span>
+<span class="category-text">معطرات جو</span>
 </div><div class="category-btn">
-  <span class="icon-with-pattern">
-    <i class="fa fa-perfume"></i>
-  </span>
-  <span class="category-text">مكياج وتجميل</span>
+<span class="icon-with-pattern">
+<i class="fa fa-perfume"></i>
+</span>
+<span class="category-text">مكياج وتجميل</span>
 </div>
 <div class="category-btn">
-  <span class="icon-with-pattern">
-    <i class="fa fa-perfume"></i>
-  </span>
-  <span class="category-text">مسكات</span>
+<span class="icon-with-pattern">
+<i class="fa fa-perfume"></i>
+</span>
+<span class="category-text">مسكات</span>
 </div>
 <div class="category-btn">
-  <span class="icon-with-pattern">
-    <i class="fa fa-perfume"></i>
-  </span>
-  <span class="category-text">مناطق حساسه</span>
+<span class="icon-with-pattern">
+<i class="fa fa-perfume"></i>
+</span>
+<span class="category-text">مناطق حساسه</span>
 </div><div class="category-btn">
-  <span class="icon-with-pattern">
-    <i class="fa fa-perfume"></i>
-  </span>
-  <span class="category-text">اضافات تجميلية</span>
+<span class="icon-with-pattern">
+<i class="fa fa-perfume"></i>
+</span>
+<span class="category-text">اضافات تجميلية</span>
 </div><div class="category-btn">
-  <span class="icon-with-pattern">
-    <i class="fa fa-perfume"></i>
-  </span>
-  <span class="category-text">عناية شخصية</span>
+<span class="icon-with-pattern">
+<i class="fa fa-perfume"></i>
+</span>
+<span class="category-text">عناية شخصية</span>
 </div>
 </div><div class="promo-media" id="promoMedia">
 </div>
-
-<div id="health-banner" class="container banner-flex">
-  <span class="banner-text">💡 صحتك سر رشاقتك</span>
-  <button class="banner-btn">🧪 ابدئي الآن</button>
+<div class="container banner-flex" id="health-banner">
+<span class="banner-text">💡 صحتك سر رشاقتك</span>
+<button class="banner-btn">🧪 ابدئي الآن</button>
 </div>
 <div class="products" id="product-list"></div>
 <div class="info-footer">
@@ -2262,7 +2336,6 @@ document.getElementById("homeBtn")?.addEventListener("click", function () {
   document.getElementById("health-banner")?.style.setProperty('display', 'block', 'important');
 });
 </script>
-
 <script>
   // المتغيرات الرئيسة
   let ALL_PRODUCTS = [];
@@ -2435,7 +2508,9 @@ function updateCarouselWidth() {
   const slides = document.querySelectorAll(".carousel-slide");
   const inner = document.getElementById("carousel-inner");
   inner.style.width = `${slides.length * 100}%`;
-  inner.style.display = "flex";
+  slides.forEach(slide => {
+  slide.style.flex = "0 0 100%";
+  });
 }
 
 function showSlide(index) {
@@ -2490,5 +2565,60 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 </script>
-</body>
+<script>
+let currentSlide = 0;
+
+function updateCarouselWidth() {
+  const slides = document.querySelectorAll(".carousel-slide");
+  const inner = document.getElementById("carousel-inner");
+  inner.style.width = `${slides.length * 100}%`;
+  inner.style.display = "flex";
+  slides.forEach(slide => {
+    slide.style.minWidth = "100%";
+    slide.style.boxSizing = "border-box";
+  });
+}
+
+function showSlide(index) {
+  const track = document.getElementById("carousel-inner");
+  const slides = document.querySelectorAll(".carousel-slide");
+  const dots = document.querySelectorAll(".dot");
+
+  if (!slides.length) return;
+  currentSlide = (index + slides.length) % slides.length;
+  const offset = -currentSlide * 100;
+  track.style.transform = `translateX(${offset}%)`;
+
+  dots.forEach(dot => dot.classList.remove("active"));
+  if (dots[currentSlide]) dots[currentSlide].classList.add("active");
+}
+
+function nextImage() { showSlide(currentSlide + 1); }
+function prevImage() { showSlide(currentSlide - 1); }
+
+function createDots() {
+  const dotContainer = document.createElement("div");
+  dotContainer.className = "carousel-dots";
+  const slides = document.querySelectorAll(".carousel-slide");
+  slides.forEach((_, i) => {
+    const dot = document.createElement("span");
+    dot.className = "dot" + (i === 0 ? " active" : "");
+    dot.addEventListener("click", () => showSlide(i));
+    dotContainer.appendChild(dot);
+  });
+  document.getElementById("image-carousel").appendChild(dotContainer);
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  updateCarouselWidth();
+  showSlide(0);
+  createDots();
+  let slideInterval = setInterval(nextImage, 4000);
+  const carousel = document.getElementById("image-carousel");
+  carousel.addEventListener("mouseenter", () => clearInterval(slideInterval));
+  carousel.addEventListener("mouseleave", () => {
+    slideInterval = setInterval(nextImage, 4000);
+  });
+});
+</script></body>
 </html>
