@@ -908,26 +908,6 @@ input[type="text"]:focus {
   color: #d81b60;
   z-index: 1;
 }
-  </style>
-</head>
-<body>
-<div class="container">
-<div class="logo">
-<img src="https://i.ibb.co/gMRRxTsd/photo-2025-07-25-00-33-10.jpg" style="width: 150px; max-width: 100%; display: block; margin: 0 auto;"/>
-</div><div class="main-header">
-<form class="search-bar" onsubmit="event.preventDefault(); searchProducts();">
-<input id="searchInput" oninput="searchProducts()" placeholder="ابحث عن منتج أو قسم..." type="text"/>
-<button class="icon" type="submit">
-<i class="fa-solid fa-search"></i>
-</button>
-</form>
-<button id="backBtn">
-  <i class="fa fa-arrow-left"></i>
-</button>
-
-<div class="dropdown" id="dropdown"></div>
-</div>
-<style>
 .custom-carousel {
   position: relative;
   overflow: hidden;
@@ -942,7 +922,10 @@ input[type="text"]:focus {
 .carousel-slide img {
   width: 100%;
   height: auto;
+  max-height: 185px;
+  object-fit: contain;
   display: block;
+  border-radius: 10px;
 }
 .carousel-dots {
   text-align: center;
@@ -1038,22 +1021,21 @@ input[type="text"]:focus {
 }
 #carousel-inner {
   display: flex;
-  transition: transform 0.5s ease-in-out;
   width: 100%;
+  transition: transform 0.5s ease-in-out;
 }
+#carousel-inner .carousel-slide {
+  min-width: 100%;
+  flex: 0 0 100%;
+}
+
 
 .carousel-slide {
   flex: 0 0 100%;
-  box-sizing: border-box;
-  padding: 0 5px;
+max-width: 100%;
+  position: relative;
 }
 
-.carousel-img {
-  width: 100%;
-  aspect-ratio: 10 / 3;
-  border-radius: 10px;
-  object-fit: cover;
-}
 
 .slide-label {
   position: absolute;
@@ -1067,10 +1049,11 @@ input[type="text"]:focus {
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
+
 .slide-label.no-bg-label {
   position: absolute;
   top: 50%;
-  left: 60px; /* جهة اليسار */
+  left: 60px;
   transform: translateY(-50%);
   color: #000;
   font-size: 3rem;
@@ -1079,30 +1062,19 @@ input[type="text"]:focus {
   background: none;
   box-shadow: none;
   direction: rtl;
-  text-align: center;       /* ✅ الأسطر تتوسط أفقياً */
+  text-align: center;
   max-width: 40%;
   white-space: normal;
   line-height: 1.6;
 }
 
-.carousel-img {
-  width:100%;
-  height:185px;
-  object-fit:cover;
-  flex-shrink:0;
+#image-carousel {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
 }
 
-.carousel-slide {
-  flex: 0 0 100%;
-  box-sizing: border-box;
-  padding: 0 5px;
-}
- .carousel-slide img {
-      width: 100%;
-      height: auto;
-      display: block;
-      object-fit: cover;
-    }
 #image-carousel button {
   position: absolute;
   top: 50%;
@@ -1117,85 +1089,108 @@ input[type="text"]:focus {
 
 #image-carousel .prev-btn { left: 10px; }
 #image-carousel .next-btn { right: 10px; }
-</style>
-<div id="image-carousel" style="position:relative;width:100%;max-width:100%;overflow:hidden;border-radius:8px;margin:0px 10px 10px 10px;box-shadow:0 2px 6px rgba(0,0,0,0.1);">
+
+.carousel-dots {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+}
+
+.carousel-dots .dot {
+  height: 10px;
+  width: 10px;
+  margin: 0 5px;
+  background-color: #d81b60;
+  border-radius: 50%;
+  display: inline-block;
+  opacity: 0.4;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.carousel-dots .dot.active {
+  opacity: 1;
+}
+  </style>
+</head>
+<body>
+<div class="logo">
+<img src="https://i.ibb.co/gMRRxTsd/photo-2025-07-25-00-33-10.jpg" style="width: 150px; max-width: 100%; display: block; margin: 0 auto;"/>
+</div><div class="main-header">
+<form class="search-bar" onsubmit="event.preventDefault(); searchProducts();">
+<input id="searchInput" oninput="searchProducts()" placeholder="ابحث عن منتج أو قسم..." type="text"/>
+<button class="icon" type="submit">
+<i class="fa-solid fa-search"></i>
+</button>
+</form>
+<button id="backBtn">
+  <i class="fa fa-arrow-left"></i>
+</button>
+
+<div class="dropdown" id="dropdown"></div>
+</div>
+<div id="image-carousel">
   <div id="carousel-inner">
     <div class="carousel-slide">
       <div style="position: relative;">
-        <img class="carousel-img" onclick="filterByMainCategory('جديد')"src="https://i.ibb.co/0jvpymn1/image.jpg"/>
-        <div class="slide-label no-bg-label"> 
-		"أنتِ أجمل مع جديدنا – اكتشفي لمستك القادمة!"
-		</div>
+        <img class="carousel-img" onclick="filterByMainCategory('جديد')" src="https://i.ibb.co/0jvpymn1/image.jpg"/>
+        <div class="slide-label no-bg-label">"أنتِ أجمل مع جديدنا – اكتشفي لمستك القادمة!"</div>
       </div>
     </div>
-
     <div class="carousel-slide">
       <div style="position: relative;">
         <img class="carousel-img" onclick="filterByMainCategory('منتجات طبية')" src="https://i.ibb.co/9HRTGK8S/image.jpg"/>
-        <div class="slide-label no-bg-label">
-		🛡️ "عناية طبية ... جمالك يستحق الأفضل!"
-		</div>
+        <div class="slide-label no-bg-label">🛡️ "عناية طبية ... جمالك يستحق الأفضل!"</div>
       </div>
-	  </div>
-  
-
+    </div>
     <div class="carousel-slide">
       <div style="position: relative;">
         <img class="carousel-img" onclick="filterByMainCategory('مقاوم للماء')" src="https://i.ibb.co/tT6zwm3h/image.jpg"/>
-        <div class="slide-label no-bg-label">
-		💧 "ثبات يدوم... مقاومة للماء، مقاومة لكل شيء!"
-		</div>
+        <div class="slide-label no-bg-label">💧 "ثبات يدوم... مقاومة للماء، مقاومة لكل شيء!"</div>
       </div>
-	  </div>
-
-
+    </div>
+    
     <div class="carousel-slide">
       <div style="position: relative;">
         <img class="carousel-img" onclick="filterByMainCategory('عضوي')" src="https://i.ibb.co/Rp3FR2bD/image.jpg"/>
-        <div class="slide-label no-bg-label">
-		🌿 "جمالك طبيعي… مثل مكوناتنا🌱من الطبيعة... إليكِ مباشرة."
-		</div>
+        <div class="slide-label no-bg-label">🌿 "جمالك طبيعي… مثل مكوناتنا🌱من الطبيعة... إليكِ مباشرة."</div>
       </div>
 	  </div>
 
     <div class="carousel-slide">
       <div style="position: relative;">
         <img class="carousel-img" onclick="filterByMainCategory('اصدار محدود')" src="https://i.ibb.co/bgjTVhQh/image.jpg"/>
-        <div class="slide-label no-bg-label">
-		✨ ⏳ "إصدار محدود... الجمال لا ينتظر!"
-		</div>
+        <div class="slide-label no-bg-label">✨ ⏳ "إصدار محدود... الجمال لا ينتظر!"</div>
       </div>
 	  </div>
 
     <div class="carousel-slide">
       <div style="position: relative;">
         <img class="carousel-img" onclick="filterByMainCategory('روتين')" src="https://i.ibb.co/PZXkD2TL/image.jpg"/>
-        <div class="slide-label no-bg-label">
-		🧴 ✨ "روتينك الجمالي يبدأ من هنا... سر التألق كل يوم!"
-		</div>
+        <div class="slide-label no-bg-label"> ✨ "روتينك الجمالي يبدأ من هنا... سر التألق كل يوم!"</div>
       </div>
 	  </div>
 
     <div class="carousel-slide">
       <div style="position: relative;">
         <img class="carousel-img" onclick="filterByMainCategory('عرض خاص')" src="https://i.ibb.co/7xdjqVCq/image.jpg"/>
-        <div class="slide-label no-bg-label">
-		"لاتفوتينها ... عروضنا الخاصة ... جمال بسعر ذهبي!"🎉
-		</div>
+        <div class="slide-label no-bg-label">"لاتفوتينها ... عروضنا الخاصة ... جمال بسعر ذهبي!"🎉</div>
       </div>
     </div>
 	   <div class="carousel-slide">
       <div style="position: relative;">
         <img class="carousel-img" onclick="filterByMainCategory('الاكثر مبيعا')" src="https://i.ibb.co/q3TJ1bLj/khonash-bg-1000x300.png"/>
-        <div class="slide-label no-bg-label">
-		🔥 "الكل يحبها... الأكثر مبيعًا تستحق التجربة!"
-		</div>
+        <div class="slide-label no-bg-label">🔥 "الكل يحبها... الأكثر مبيعًا تستحق التجربة!"</div>
       </div>
 	  </div>
-	  	</div>
- <button class="prev-btn" onclick="prevImage()" style="position:absolute;top:50%;left:10px;transform:translateY(-50%);font-size:2em;background:none;border:none;color:#d81b60;cursor:pointer;">❮</button>
- <button class="next-btn" onclick="nextImage()" style="position:absolute;top:50%;right:10px;transform:translateY(-50%);font-size:2em;background:none;border:none;color:#d81b60;cursor:pointer;">❯</button>
+  </div>
+
+  <button class="prev-btn" onclick="prevImage()">❮</button>
+  <button class="next-btn" onclick="nextImage()">❯</button>
 </div>
+
+
 <div class="categories cat-slider" id="categories">
 <div class="category-btn">
   <span class="icon-with-pattern">
@@ -2045,16 +2040,12 @@ function showToastMsg(txt, type = "success") {
     setTimeout(() => { toast.style.display = "none"; }, 500);
   }, 3500);
 }
-
 window.onclick = function (e) {
   if (e.target.id === "cartModal") {
 const modal = document.getElementById("cartModal");
 modal.classList.remove("open");
 setTimeout(() => { modal.style.display = "none"; }, 400);  }
 };
-
-document.getElementById("showCartBtn").onclick = showCart;
-
 document.addEventListener("DOMContentLoaded", () => {
   updateCartCount();
 });
@@ -2177,11 +2168,6 @@ document.addEventListener("mousedown", function(e) {
       }
     });
   </script>
-<script>
-document.getElementById('healthTestBtn').onclick = function() {
-  window.open('https://forms.gle/H7VShuJz1aGbaGS37', '_blank');
-};
-</script>
 </div>
 <script>document.getElementById('healthTestBtn').onclick = function() { window.open('https://forms.gle/H7VShuJz1aGbaGS37', '_blank'); };</script>
 <script>
@@ -2441,13 +2427,22 @@ function filterByMainCategory(badge) {
 }
 </script>
 <script>
+let totalSlides = document.querySelectorAll(".carousel-slide").length;
 let currentSlide = 0;
 let slideInterval;
 
+function updateCarouselWidth() {
+  const slides = document.querySelectorAll(".carousel-slide");
+  const inner = document.getElementById("carousel-inner");
+  inner.style.width = `${slides.length * 100}%`;
+  inner.style.display = "flex";
+}
+
 function showSlide(index) {
   const track = document.getElementById("carousel-inner");
-  const slides = document.querySelectorAll("#carousel-inner .carousel-slide");
+  const slides = document.querySelectorAll(".carousel-slide");
   const dots = document.querySelectorAll(".dot");
+
   if (!slides.length) return;
 
   currentSlide = (index + slides.length) % slides.length;
@@ -2469,7 +2464,7 @@ function prevImage() {
 function createDots() {
   const dotContainer = document.createElement("div");
   dotContainer.className = "carousel-dots";
-  const slides = document.querySelectorAll("#carousel-inner .carousel-slide");
+  const slides = document.querySelectorAll(".carousel-slide");
 
   slides.forEach((_, i) => {
     const dot = document.createElement("span");
@@ -2481,19 +2476,19 @@ function createDots() {
   document.getElementById("image-carousel").appendChild(dotContainer);
 }
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
+  updateCarouselWidth(); // مهم جدًا
   showSlide(0);
   createDots();
-  slideInterval = setInterval(nextImage, 4000);
 
-  // إيقاف السلايدر عند تمرير الماوس
+  slideInterval = setInterval(nextImage, 4000);
   const carousel = document.getElementById("image-carousel");
+
   carousel.addEventListener("mouseenter", () => clearInterval(slideInterval));
   carousel.addEventListener("mouseleave", () => {
     slideInterval = setInterval(nextImage, 4000);
   });
 });
 </script>
-</div>
 </body>
 </html>
